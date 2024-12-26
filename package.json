@@ -1,6 +1,7 @@
 {
   "name": "sakherli",
   "version": "1.0.0",
+  "private": "true",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,6 +10,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "libs/*"
+    ]
+  },
   "devDependencies": {
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
