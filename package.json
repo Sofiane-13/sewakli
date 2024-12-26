@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "validate": "nx run-many --target=validate",
     "build": "nx run-many --target=build",
+    "dev": "nx run-many --target=dev",
     "prepare": "husky install"
   },
   "keywords": [],
