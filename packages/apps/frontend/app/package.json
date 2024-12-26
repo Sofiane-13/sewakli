@@ -12,7 +12,7 @@
     "format:check": "pnpm prettier --check",
     "format:write": "pnpm prettier --write",
     "tsc": "tsc",
-    "validate": "run-p format:write lint tsc format:check"
+    "validate": "pnpm run format:write && run-p format:write lint tsc format:check"
   },
   "dependencies": {
     "@sakherli/shared": "workspace:^",

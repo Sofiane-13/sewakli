@@ -1,5 +1,13 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "master",
-  "nxCloudId": "676d80511e2201088cab606b"
+  "nxCloudId": "676d80511e2201088cab606b",
+  "targetDefaults": {
+    "build": {
+      "cache": true
+    },
+    "validate": {
+      "cache": true
+    }
+  }
 }
