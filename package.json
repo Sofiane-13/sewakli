@@ -5,9 +5,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "validate": "nx run-many --target=validate",
     "build": "nx run-many --target=build",
+    "lint": "nx run-many --target=lint",
+    "check": "nx run-many --target=check",
+    "test": "nx run-many --target=test",
     "dev": "nx run-many --target=dev",
     "prepare": "husky install"
   },

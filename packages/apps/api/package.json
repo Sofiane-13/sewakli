@@ -6,20 +6,20 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "build": "tsc && nest build",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "check": "pnpm prettier --check",
+    "format:write": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "tsc": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "validate": "pnpm run format && run-p  lint tsc test test:e2e"
+    "validate": "pnpm run format:write && run-p  build lint test test:e2e"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
