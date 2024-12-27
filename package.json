@@ -9,6 +9,7 @@
     "build": "nx run-many --target=build",
     "lint": "nx run-many --target=lint",
     "check": "nx run-many --target=check",
+    "format:write": "nx run-many --target=format:write",
     "test": "nx run-many --target=test",
     "dev": "nx run-many --target=dev",
     "prepare": "husky install"
