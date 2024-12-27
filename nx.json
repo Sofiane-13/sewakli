@@ -9,5 +9,16 @@
     "validate": {
       "cache": true
     }
+  },
+  "cli": {
+    "warnings": {
+      "versionMismatch": false
+    },
+    "packageManager": "pnpm",
+    "analytics": false
+  },
+  "namedInputs": {
+    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"],
+    "default": ["sharedGlobals"]
   }
 }
