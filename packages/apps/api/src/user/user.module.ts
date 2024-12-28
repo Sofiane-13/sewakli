@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common'
-import { UserController } from './adapters/driving/UserController'
+import { UserResolver } from './adapters/driving/UserResolver'
 import { UserService } from './domain/inboudPorts/UserService'
 import { IUserRepository } from './domain/outboundPorts/IUserRepository'
 import { UserInMemory } from './adapters/driven/UserInMemory'
 
 @Module({
   imports: [],
-  controllers: [UserController],
+  controllers: [],
   providers: [
+    UserResolver,
     UserService,
     {
       provide: IUserRepository,

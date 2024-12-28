@@ -1,11 +1,14 @@
-import { User } from '../model/User'
+import {
+  CreateUserGraphQl,
+  UserGraphQl,
+} from 'src/user/adapters/driving/user.model'
 
 /**
  * Our domain input port
  */
 
 export interface IUserService {
-  create(description: string, priority: number): User
-  findAll(): User[]
-  findActiveUsers(): User[]
+  create(createUserInput: CreateUserGraphQl): UserGraphQl
+  findAll(): UserGraphQl[]
+  findCreatedUsers(): UserGraphQl[]
 }

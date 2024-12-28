@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prettier": "prettier \"src/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore",
     "format:write": "pnpm prettier --write \"src/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore",
-    "validate": "pnpm run format:write && run-p build lint"
+    "validate": "run-p build lint check"
   },
   "dependencies": {
     "@sakherli/shared": "workspace:^",

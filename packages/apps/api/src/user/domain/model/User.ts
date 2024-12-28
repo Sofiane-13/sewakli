@@ -1,28 +1,34 @@
 import { randomUUID } from 'crypto'
 
+export class CreateUser {
+  familyName: string
+  firstName: string
+}
 export class User {
-  private id: string
-  description: string
+  id: string
+  familyName: string
+  firstName: string
   status: UserStatus
   createAt: Date
-  updateAt: Date
-  priority: number
-  constructor(description: string, priority: number) {
+
+  constructor(createUser: CreateUser) {
     this.id = randomUUID()
-    this.description = description
-    this.status = UserStatus.OPEN
+    this.familyName = createUser.familyName
+    this.firstName = createUser.firstName
+    this.status = UserStatus.CREATED
     this.createAt = new Date()
-    this.updateAt = new Date()
-    this.priority = priority
   }
 
-  isClosed(): boolean {
-    return this.status === UserStatus.CLOSED
+  isCreated(): boolean {
+    return this.status === UserStatus.CREATED
+  }
+
+  changeStatuts(newStatus: UserStatus): void {
+    this.status = newStatus
   }
 }
 
-enum UserStatus {
-  OPEN = 'OPEN',
-  IN_PROGRESS = 'IN_PROGRESS',
-  CLOSED = 'CLOSED',
+export enum UserStatus {
+  CREATED = 'CREATED',
+  BLOCKED = 'BLOCKED',
 }

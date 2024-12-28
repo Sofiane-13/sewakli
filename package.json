@@ -10,7 +10,8 @@
     "lint": "nx run-many --target=lint",
     "check": "nx run-many --target=check",
     "format:write": "nx run-many --target=format:write",
-    "test": "nx run-many --target=test",
+    "test:unit": "nx run-many --target=test:unit",
+    "test:e2e": "nx run-many --target=test:e2e",
     "dev": "nx run-many --target=dev",
     "prepare": "husky install"
   },

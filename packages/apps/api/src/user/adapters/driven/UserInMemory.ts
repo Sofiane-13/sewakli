@@ -7,7 +7,9 @@ import { IUserRepository } from '../../domain/outboundPorts/IUserRepository'
  */
 @Injectable()
 export class UserInMemory implements IUserRepository {
-  private readonly users: User[] = [new User('user 1', 1)]
+  private readonly users: User[] = [
+    new User({ familyName: 'Nom', firstName: 'Prenom' }),
+  ]
 
   create(user: User): User {
     this.users.push(user)

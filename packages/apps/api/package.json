@@ -14,21 +14,25 @@
     "dev": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
-    "test": "jest",
+    "test": "run-p test:unit test:e2e",
+    "test:unit": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "validate": "pnpm run format:write && run-p  build lint test test:e2e"
+    "validate": "run-p  build lint check test:unit test:e2e"
   },
   "dependencies": {
+    "@nestjs/apollo": "^12.2.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "class-validator": "^0.14.1",
     "helmet": "^8.0.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "type-graphql": "2.0.0-rc.2",
+    "typegraphql-nestjs": "^0.7.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

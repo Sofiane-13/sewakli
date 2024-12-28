@@ -12,7 +12,10 @@
     "check": {
       "cache": true
     },
-    "test": {
+    "test:unit": {
+      "cache": true
+    },
+    "test:e2e": {
       "cache": true
     },
     "validate": {

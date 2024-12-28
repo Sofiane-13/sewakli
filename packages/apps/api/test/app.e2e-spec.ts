@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from './../src/app.module'
 
-describe('AppController (e2e)', () => {
+describe('UserResolver (e2e)', () => {
   let app: INestApplication
 
   beforeEach(async () => {
@@ -15,10 +15,23 @@ describe('AppController (e2e)', () => {
     await app.init()
   })
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
+  it('should return users (GraphQL query example)', async () => {
+    const query = `
+      query {
+        users {
+          id
+          firstName
+          familyName
+        }
+      }
+    `
+
+    const response = await request(app.getHttpServer())
+      .post('/graphql')
+      .send({ query })
       .expect(200)
-      .expect('Hello World!')
+
+    expect(response.body.data.users).toBeDefined()
+    // You can add more assertions based on your expected output
   })
 })
