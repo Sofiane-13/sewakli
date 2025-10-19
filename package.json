@@ -1,23 +1,11 @@
 {
-  "name": "sakherli",
-  "version": "1.0.0",
-  "private": "true",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "validate": "nx run-many --target=validate",
-    "build": "nx run-many --target=build",
-    "lint": "nx run-many --target=lint",
-    "check": "nx run-many --target=check",
     "format:write": "nx run-many --target=format:write",
     "test:unit": "nx run-many --target=test:unit",
     "test:e2e": "nx run-many --target=test:e2e",
     "dev": "nx run-many --target=dev",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "packageManager": "pnpm@9.15.1",
   "workspaces": {
     "packages": [
@@ -29,12 +17,29 @@
       "**/@nestjs/**"
     ]
   },
+  "pnpm": {
+    "overrides": {
+      "glob": "^8.1.0",
+      "inflight": "^1.0.6"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@nestjs/common": "11",
+        "@nestjs/core": "11",
+        "@nestjs/graphql": "13",
+        "type-graphql": "2"
+      },
+      "ignoreMissing": [
+        "@apollo/server-plugin-landing-page-graphql-playground"
+      ]
+    }
+  },
   "devDependencies": {
-    "@nx/workspace": "^20.3.0",
-    "husky": "^8.0.0",
-    "lint-staged": "^15.2.11",
-    "nx": "20.3.0",
+    "@nx/workspace": "^21.6.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.4",
+    "nx": "^21.6.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.9.3"
   }
 }

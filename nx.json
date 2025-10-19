@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "defaultBase": "master",
+  "defaultBase": "main",
   "nxCloudId": "676d80511e2201088cab606b",
   "targetDefaults": {
     "build": {
