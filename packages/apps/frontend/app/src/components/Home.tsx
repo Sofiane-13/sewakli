@@ -1,17 +1,19 @@
+import { useNavigate } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import RouteSearchForm from './RouteSearchForm'
 import { RouteSearchData } from '../types/route'
 
 export default function Home() {
+  const navigate = useNavigate()
+
   const handleSearchTransporter = (data: RouteSearchData) => {
     console.log('Searching for transporter:', data)
     // Logique de recherche à implémenter
   }
 
   const handleProposeRoute = () => {
-    console.log('Proposing a route')
-    // Logique de proposition de route à implémenter
+    navigate('/create-route')
   }
 
   return (

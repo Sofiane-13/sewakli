@@ -1,3 +1,4 @@
+// Kept for future use in route creation
 export interface IntermediateStop {
   id: string
   country: string
@@ -12,5 +13,9 @@ export interface RouteSearchData {
   arrivalCountry: string
   arrivalCity: string
   arrivalDate: string
+}
+
+// For route creation (future use)
+export interface RouteCreationData extends RouteSearchData {
   intermediateStops: IntermediateStop[]
 }

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import CityDateField from './CityDateField'
 import { RouteSearchData } from '../types/route'
 import { useLocation } from '../hooks/useLocation'
-import { useIntermediateStops } from '../hooks/useIntermediateStops'
 import { LOCATION_ICONS } from '../constants/icons'
 import { FORM_LABELS } from '../constants/labels'
 
@@ -23,9 +22,6 @@ export default function RouteSearchForm({
   const arrival = useLocation()
   const [arrivalDate, setArrivalDate] = useState('')
 
-  // Intermediate stops
-  const { stops, addStop, removeStop, updateStop } = useIntermediateStops()
-
   const handleSearch = () => {
     onSearch({
       departureCountry: departure.country,
@@ -34,7 +30,6 @@ export default function RouteSearchForm({
       arrivalCountry: arrival.country,
       arrivalCity: arrival.city,
       arrivalDate,
-      intermediateStops: stops,
     })
   }
 
@@ -51,33 +46,6 @@ export default function RouteSearchForm({
         onDateChange={setDepartureDate}
         cityIcon={LOCATION_ICONS.departure}
       />
-
-      {/* Intermediate Stops */}
-      {stops.map((stop) => (
-        <CityDateField
-          key={stop.id}
-          label={FORM_LABELS.intermediate}
-          countryValue={stop.country}
-          cityValue={stop.city}
-          dateValue={stop.date}
-          onCountryChange={(value) => updateStop(stop.id, 'country', value)}
-          onCityChange={(value) => updateStop(stop.id, 'city', value)}
-          onDateChange={(value) => updateStop(stop.id, 'date', value)}
-          cityIcon={LOCATION_ICONS.intermediate}
-          showRemove
-          onRemove={() => removeStop(stop.id)}
-        />
-      ))}
-
-      {/* Add Intermediate Stop Button */}
-      <button
-        onClick={addStop}
-        type="button"
-        className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 font-medium py-3 rounded-lg hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors flex items-center justify-center gap-2"
-      >
-        <span className="material-symbols-outlined">add</span>
-        {FORM_LABELS.addStop}
-      </button>
 
       {/* Arrival */}
       <CityDateField
