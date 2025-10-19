@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:\\Users\\sofia\\sakherli\\packages\\apps\\api\" -maxdepth 1 -type f ( -name \".env*\" -o -name \"*.md\" ))",
+      "Bash(pnpm run build)",
+      "Bash(pnpm run format:write)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(tasklist)",
+      "Bash(findstr /i \"node\")",
+      "Bash(tasklist /FI \"IMAGENAME eq node.exe\")",
+      "Bash(powershell \"Get-Process node -ErrorAction SilentlyContinue\")",
+      "Bash(taskkill /F /PID 15108)",
+      "Bash(powershell \"Stop-Process -Id 15108 -Force\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
