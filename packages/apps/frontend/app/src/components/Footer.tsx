@@ -1,3 +1,5 @@
+import { NAVIGATION_ICONS } from '../constants/icons'
+
 interface NavItem {
   icon: string
   label: string
@@ -7,10 +9,16 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { icon: 'home', label: 'Home', href: '#', isActive: true, isFilled: true },
-  { icon: 'local_shipping', label: 'Routes', href: '#' },
-  { icon: 'chat', label: 'Messages', href: '#' },
-  { icon: 'person', label: 'Profile', href: '#' },
+  {
+    icon: NAVIGATION_ICONS.home,
+    label: 'Home',
+    href: '#',
+    isActive: true,
+    isFilled: true,
+  },
+  { icon: NAVIGATION_ICONS.routes, label: 'Routes', href: '#' },
+  { icon: NAVIGATION_ICONS.messages, label: 'Messages', href: '#' },
+  { icon: NAVIGATION_ICONS.profile, label: 'Profile', href: '#' },
 ]
 
 export default function Footer() {

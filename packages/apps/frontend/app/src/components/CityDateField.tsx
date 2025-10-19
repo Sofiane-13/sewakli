@@ -1,3 +1,8 @@
+import { memo } from 'react'
+import { COUNTRIES, getCitiesByCountry } from '../data/countries'
+import { LOCATION_ICONS } from '../constants/icons'
+import { PLACEHOLDERS } from '../constants/labels'
+
 interface CityDateFieldProps {
   label: string
   countryValue: string
@@ -14,7 +19,7 @@ interface CityDateFieldProps {
   onRemove?: () => void
 }
 
-export default function CityDateField({
+function CityDateField({
   label,
   countryValue,
   cityValue,
@@ -23,12 +28,14 @@ export default function CityDateField({
   onCityChange,
   onDateChange,
   cityIcon,
-  countryPlaceholder = 'Pays',
-  cityPlaceholder = 'Ville',
-  datePlaceholder = 'Date',
+  countryPlaceholder = PLACEHOLDERS.country,
+  cityPlaceholder = PLACEHOLDERS.city,
+  datePlaceholder = PLACEHOLDERS.date,
   showRemove = false,
   onRemove,
 }: CityDateFieldProps) {
+  const availableCities = countryValue ? getCitiesByCountry(countryValue) : []
+
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
@@ -46,33 +53,55 @@ export default function CityDateField({
         )}
       </div>
       <div className="flex gap-2">
+        {/* Country Select */}
         <div className="relative flex-1">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
-            public
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none z-10">
+            {LOCATION_ICONS.country}
           </span>
-          <input
-            className="w-full pl-10 pr-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-            placeholder={countryPlaceholder}
-            type="text"
+          <select
+            className="w-full pl-10 pr-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none cursor-pointer"
             value={countryValue}
             onChange={(e) => onCountryChange(e.target.value)}
-          />
+          >
+            <option value="">{countryPlaceholder}</option>
+            {COUNTRIES.map((country) => (
+              <option key={country.code} value={country.code}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
+            expand_more
+          </span>
         </div>
+
+        {/* City Select */}
         <div className="relative flex-1">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none z-10">
             {cityIcon}
           </span>
-          <input
-            className="w-full pl-10 pr-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-            placeholder={cityPlaceholder}
-            type="text"
+          <select
+            className="w-full pl-10 pr-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             value={cityValue}
             onChange={(e) => onCityChange(e.target.value)}
-          />
+            disabled={!countryValue}
+          >
+            <option value="">{cityPlaceholder}</option>
+            {availableCities.map((city) => (
+              <option key={city.code} value={city.code}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+          <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
+            expand_more
+          </span>
         </div>
+
+        {/* Date Input */}
         <div className="relative flex-1">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
-            calendar_today
+            {LOCATION_ICONS.calendar}
           </span>
           <input
             className="w-full pl-10 pr-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all cursor-pointer"
@@ -86,3 +115,5 @@ export default function CityDateField({
     </div>
   )
 }
+
+export default memo(CityDateField)

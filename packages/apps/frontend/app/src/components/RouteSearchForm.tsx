@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import CityDateField from './CityDateField'
-import { IntermediateStop, RouteSearchData } from '../types/route'
+import { RouteSearchData } from '../types/route'
+import { useLocation } from '../hooks/useLocation'
+import { useIntermediateStops } from '../hooks/useIntermediateStops'
+import { LOCATION_ICONS } from '../constants/icons'
+import { FORM_LABELS } from '../constants/labels'
 
 interface RouteSearchFormProps {
   onSearch: (data: RouteSearchData) => void
@@ -11,111 +15,80 @@ export default function RouteSearchForm({
   onSearch,
   onProposeRoute,
 }: RouteSearchFormProps) {
-  const [departureCountry, setDepartureCountry] = useState('')
-  const [departureCity, setDepartureCity] = useState('')
+  // Departure location
+  const departure = useLocation()
   const [departureDate, setDepartureDate] = useState('')
-  const [arrivalCountry, setArrivalCountry] = useState('')
-  const [arrivalCity, setArrivalCity] = useState('')
+
+  // Arrival location
+  const arrival = useLocation()
   const [arrivalDate, setArrivalDate] = useState('')
-  const [intermediateStops, setIntermediateStops] = useState<
-    IntermediateStop[]
-  >([])
 
-  const addIntermediateStop = () => {
-    const newStop: IntermediateStop = {
-      id: Date.now().toString(),
-      country: '',
-      city: '',
-      date: '',
-    }
-    setIntermediateStops([...intermediateStops, newStop])
-  }
-
-  const removeIntermediateStop = (id: string) => {
-    setIntermediateStops(intermediateStops.filter((stop) => stop.id !== id))
-  }
-
-  const updateIntermediateStop = (
-    id: string,
-    field: 'country' | 'city' | 'date',
-    value: string,
-  ) => {
-    setIntermediateStops(
-      intermediateStops.map((stop) =>
-        stop.id === id ? { ...stop, [field]: value } : stop,
-      ),
-    )
-  }
+  // Intermediate stops
+  const { stops, addStop, removeStop, updateStop } = useIntermediateStops()
 
   const handleSearch = () => {
     onSearch({
-      departureCountry,
-      departureCity,
+      departureCountry: departure.country,
+      departureCity: departure.city,
       departureDate,
-      arrivalCountry,
-      arrivalCity,
+      arrivalCountry: arrival.country,
+      arrivalCity: arrival.city,
       arrivalDate,
-      intermediateStops,
+      intermediateStops: stops,
     })
   }
 
   return (
     <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg space-y-3">
-      {/* Departure City and Date */}
+      {/* Departure */}
       <CityDateField
-        label="Ville de départ"
-        countryValue={departureCountry}
-        cityValue={departureCity}
+        label={FORM_LABELS.departure}
+        countryValue={departure.country}
+        cityValue={departure.city}
         dateValue={departureDate}
-        onCountryChange={setDepartureCountry}
-        onCityChange={setDepartureCity}
+        onCountryChange={departure.handleCountryChange}
+        onCityChange={departure.handleCityChange}
         onDateChange={setDepartureDate}
-        cityIcon="pin_drop"
+        cityIcon={LOCATION_ICONS.departure}
       />
 
       {/* Intermediate Stops */}
-      {intermediateStops.map((stop) => (
+      {stops.map((stop) => (
         <CityDateField
           key={stop.id}
-          label="Ville intermédiaire"
+          label={FORM_LABELS.intermediate}
           countryValue={stop.country}
           cityValue={stop.city}
           dateValue={stop.date}
-          onCountryChange={(value) =>
-            updateIntermediateStop(stop.id, 'country', value)
-          }
-          onCityChange={(value) =>
-            updateIntermediateStop(stop.id, 'city', value)
-          }
-          onDateChange={(value) =>
-            updateIntermediateStop(stop.id, 'date', value)
-          }
-          cityIcon="location_on"
+          onCountryChange={(value) => updateStop(stop.id, 'country', value)}
+          onCityChange={(value) => updateStop(stop.id, 'city', value)}
+          onDateChange={(value) => updateStop(stop.id, 'date', value)}
+          cityIcon={LOCATION_ICONS.intermediate}
           showRemove
-          onRemove={() => removeIntermediateStop(stop.id)}
+          onRemove={() => removeStop(stop.id)}
         />
       ))}
 
       {/* Add Intermediate Stop Button */}
       <button
-        onClick={addIntermediateStop}
+        onClick={addStop}
         type="button"
         className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 font-medium py-3 rounded-lg hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors flex items-center justify-center gap-2"
       >
         <span className="material-symbols-outlined">add</span>
-        Ajouter une ville intermédiaire
+        {FORM_LABELS.addStop}
       </button>
 
-      {/* Arrival City and Date */}
+      {/* Arrival */}
       <CityDateField
-        label="Ville d'arrivée"
-        countryValue={arrivalCountry}
-        cityValue={arrivalCity}
+        label={FORM_LABELS.arrival}
+        countryValue={arrival.country}
+        cityValue={arrival.city}
         dateValue={arrivalDate}
-        onCountryChange={setArrivalCountry}
-        onCityChange={setArrivalCity}
+        onCountryChange={arrival.handleCountryChange}
+        onCityChange={arrival.handleCityChange}
         onDateChange={setArrivalDate}
-        cityIcon="flag"
+        cityIcon={LOCATION_ICONS.arrival}
       />
 
       {/* Search Button */}
@@ -124,7 +97,7 @@ export default function RouteSearchForm({
         onClick={handleSearch}
         type="button"
       >
-        Search for a transporter
+        {FORM_LABELS.searchTransporter}
       </button>
 
       {/* Propose Route Button */}
@@ -133,7 +106,7 @@ export default function RouteSearchForm({
         onClick={onProposeRoute}
         type="button"
       >
-        Propose a route
+        {FORM_LABELS.proposeRoute}
       </button>
     </div>
   )
