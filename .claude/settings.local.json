@@ -10,7 +10,8 @@
       "Bash(tasklist /FI \"IMAGENAME eq node.exe\")",
       "Bash(powershell \"Get-Process node -ErrorAction SilentlyContinue\")",
       "Bash(taskkill /F /PID 15108)",
-      "Bash(powershell \"Stop-Process -Id 15108 -Force\")"
+      "Bash(powershell \"Stop-Process -Id 15108 -Force\")",
+      "Bash(powershell \"Stop-Process -Id 28616 -Force\")"
     ],
     "deny": [],
     "ask": []

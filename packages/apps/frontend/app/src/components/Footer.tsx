@@ -12,13 +12,10 @@ const navItems: NavItem[] = [
   {
     icon: NAVIGATION_ICONS.home,
     label: 'Home',
-    href: '#',
+    href: '/',
     isActive: true,
     isFilled: true,
   },
-  { icon: NAVIGATION_ICONS.routes, label: 'Routes', href: '#' },
-  { icon: NAVIGATION_ICONS.messages, label: 'Messages', href: '#' },
-  { icon: NAVIGATION_ICONS.profile, label: 'Profile', href: '#' },
 ]
 
 export default function Footer() {
