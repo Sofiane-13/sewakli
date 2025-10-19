@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common'
 import { Resolver, Query, Mutation, Args } from 'type-graphql'
-import { CreateUserGraphQl, UserGraphQl } from './user.model'
+import { CreateUserGraphQl, UserGraphQl } from './User.model'
 import { UserService } from '../../domain/inboudPorts/UserService'
 
 @Resolver(() => UserGraphQl)

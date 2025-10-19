@@ -5,7 +5,7 @@ import { IUserService } from './IUserService'
 import {
   CreateUserGraphQl,
   UserGraphQl,
-} from 'src/user/adapters/driving/user.model'
+} from 'src/user/adapters/driving/User.model'
 
 /**
  * The implementation of the inbound port IUserService.

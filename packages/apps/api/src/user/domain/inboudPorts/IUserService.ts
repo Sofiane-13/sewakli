@@ -1,7 +1,7 @@
 import {
   CreateUserGraphQl,
   UserGraphQl,
-} from 'src/user/adapters/driving/user.model'
+} from 'src/user/adapters/driving/User.model'
 
 /**
  * Our domain input port

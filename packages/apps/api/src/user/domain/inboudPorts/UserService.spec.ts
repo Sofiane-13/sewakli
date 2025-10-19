@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { UserService } from './UserService'
 import { IUserRepository } from '../outboundPorts/IUserRepository'
 import { User, UserStatus } from '../model/User'
-import { CreateUserGraphQl } from 'src/user/adapters/driving/user.model'
+import { CreateUserGraphQl } from 'src/user/adapters/driving/User.model'
 
 describe('UserService', () => {
   let userService: UserService
