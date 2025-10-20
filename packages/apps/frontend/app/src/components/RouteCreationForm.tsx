@@ -10,10 +10,12 @@ interface RouteCreationFormProps {
   onPublish: (
     data: RouteCreationData & { description: string; price: string },
   ) => void
+  loading?: boolean
 }
 
 export default function RouteCreationForm({
   onPublish,
+  loading = false,
 }: RouteCreationFormProps) {
   // Departure location
   const departure = useLocation()
@@ -143,9 +145,15 @@ export default function RouteCreationForm({
         <button
           onClick={handlePublish}
           type="button"
-          className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
+          disabled={loading}
+          className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          {FORM_LABELS.publishRoute}
+          {loading && (
+            <span className="material-symbols-outlined animate-spin">
+              progress_activity
+            </span>
+          )}
+          {loading ? 'Publication en cours...' : FORM_LABELS.publishRoute}
         </button>
       </div>
     </div>

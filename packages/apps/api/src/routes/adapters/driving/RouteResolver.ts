@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common'
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Arg, Mutation, Query, Resolver } from 'type-graphql'
 import {
   IRouteService,
   IRouteServiceToken,
@@ -19,7 +19,7 @@ export class RouteResolver {
   ) {}
 
   @Mutation(() => RouteDto)
-  async createRoute(@Args('input') input: CreateRouteInput): Promise<RouteDto> {
+  async createRoute(@Arg('input') input: CreateRouteInput): Promise<RouteDto> {
     const route = await this.routeService.createRoute({
       departureCountry: input.departureCountry,
       departureCity: input.departureCity,
@@ -41,7 +41,7 @@ export class RouteResolver {
   }
 
   @Query(() => RouteDto, { nullable: true })
-  async route(@Args('id') id: string): Promise<RouteDto | null> {
+  async route(@Arg('id') id: string): Promise<RouteDto | null> {
     const route = await this.routeService.getRouteById(id)
     return route ? RouteMapper.toDto(route) : null
   }
@@ -54,7 +54,7 @@ export class RouteResolver {
 
   @Query(() => [RouteDto])
   async searchRoutes(
-    @Args('input') input: SearchRouteInput,
+    @Arg('input') input: SearchRouteInput,
   ): Promise<RouteDto[]> {
     const routes = await this.routeService.searchRoutes(input)
     return RouteMapper.toDtoList(routes)
@@ -62,26 +62,26 @@ export class RouteResolver {
 
   @Query(() => [RouteDto])
   async routesByTransporter(
-    @Args('transporterId') transporterId: string,
+    @Arg('transporterId') transporterId: string,
   ): Promise<RouteDto[]> {
     const routes = await this.routeService.getRoutesByTransporter(transporterId)
     return RouteMapper.toDtoList(routes)
   }
 
   @Mutation(() => RouteDto)
-  async publishRoute(@Args('id') id: string): Promise<RouteDto> {
+  async publishRoute(@Arg('id') id: string): Promise<RouteDto> {
     const route = await this.routeService.publishRoute(id)
     return RouteMapper.toDto(route)
   }
 
   @Mutation(() => RouteDto)
-  async cancelRoute(@Args('id') id: string): Promise<RouteDto> {
+  async cancelRoute(@Arg('id') id: string): Promise<RouteDto> {
     const route = await this.routeService.cancelRoute(id)
     return RouteMapper.toDto(route)
   }
 
   @Mutation(() => RouteDto)
-  async completeRoute(@Args('id') id: string): Promise<RouteDto> {
+  async completeRoute(@Arg('id') id: string): Promise<RouteDto> {
     const route = await this.routeService.completeRoute(id)
     return RouteMapper.toDto(route)
   }

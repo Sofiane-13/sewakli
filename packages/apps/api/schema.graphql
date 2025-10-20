@@ -3,12 +3,86 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateIntermediateStopInput {
+  city: String!
+  country: String!
+  date: DateTimeISO!
+}
+
+input CreateRouteInput {
+  arrivalCity: String!
+  arrivalCountry: String!
+  arrivalDate: DateTimeISO!
+  departureCity: String!
+  departureCountry: String!
+  departureDate: DateTimeISO!
+  description: String
+  intermediateStops: [CreateIntermediateStopInput!]
+  price: Float
+  transporterId: String!
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type IntermediateStopDto {
+  city: String!
+  country: String!
+  date: DateTimeISO!
+  id: String!
+}
+
 type Mutation {
   addUser(familyName: String!, firstName: String!): UserGraphQl!
+  cancelRoute(id: String!): RouteDto!
+  completeRoute(id: String!): RouteDto!
+  createRoute(input: CreateRouteInput!): RouteDto!
+  publishRoute(id: String!): RouteDto!
 }
 
 type Query {
+  route(id: String!): RouteDto
+  routes: [RouteDto!]!
+  routesByTransporter(transporterId: String!): [RouteDto!]!
+  searchRoutes(input: SearchRouteInput!): [RouteDto!]!
   users: [UserGraphQl!]!
+}
+
+type RouteDto {
+  arrivalCity: String!
+  arrivalCountry: String!
+  arrivalDate: DateTimeISO!
+  createdAt: DateTimeISO!
+  departureCity: String!
+  departureCountry: String!
+  departureDate: DateTimeISO!
+  description: String
+  id: String!
+  intermediateStops: [IntermediateStopDto!]!
+  price: Float
+  status: RouteStatus!
+  transporterId: String!
+  updatedAt: DateTimeISO!
+}
+
+"""The status of a route"""
+enum RouteStatus {
+  CANCELLED
+  COMPLETED
+  CREATED
+  PUBLISHED
+}
+
+input SearchRouteInput {
+  arrivalCity: String
+  arrivalCountry: String
+  arrivalDate: DateTimeISO
+  departureCity: String
+  departureCountry: String
+  departureDate: DateTimeISO
+  status: RouteStatus
 }
 
 type UserGraphQl {
