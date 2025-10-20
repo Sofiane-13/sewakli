@@ -34,7 +34,7 @@ export default function RouteCreation() {
   return (
     <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark font-display">
       {/* Header with back button */}
-      <header className="bg-white dark:bg-gray-800 px-3 py-3 sm:px-4 sm:py-4 flex items-center border-b border-gray-200 dark:border-gray-700 sticky top-0 z-20 shadow-sm backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
+      <header className="relative z-20 bg-white/90 dark:bg-gray-800/90 px-3 py-3 sm:px-4 sm:py-4 flex items-center border-b border-gray-200 dark:border-gray-700 sticky top-0 shadow-sm backdrop-blur-md">
         <button
           onClick={handleBack}
           className="text-gray-800 dark:text-white hover:text-primary transition-colors flex-shrink-0"

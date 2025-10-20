@@ -23,6 +23,7 @@
     "validate": "run-p build lint check test:unit test:e2e"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.913.0",
     "@apollo/server": "^5.0.0",
     "@as-integrations/express5": "^1.0.0",
     "@nestjs/apollo": "^13.2.1",

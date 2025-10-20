@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import CityDateField from './CityDateField'
+import EmailVerification from './EmailVerification'
 import { RouteCreationData } from '../types/route'
 import { useLocation } from '../hooks/useLocation'
 import { useIntermediateStops } from '../hooks/useIntermediateStops'
@@ -9,7 +10,11 @@ import { Button } from './ui/Button'
 
 interface RouteCreationFormProps {
   onPublish: (
-    data: RouteCreationData & { description: string; price: string },
+    data: RouteCreationData & {
+      description: string
+      price: string
+      email: string
+    },
   ) => void
   loading?: boolean
 }
@@ -32,8 +37,15 @@ export default function RouteCreationForm({
   // Additional fields
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
+  const [email, setEmail] = useState('')
 
-  const handlePublish = () => {
+  // Email verification state
+  const [showVerificationModal, setShowVerificationModal] = useState(false)
+
+  const handleEmailVerified = (verifiedEmail: string) => {
+    setShowVerificationModal(false)
+
+    // Une fois l'email vérifié, créer la route
     onPublish({
       departureCountry: departure.country,
       departureCity: departure.city,
@@ -44,7 +56,24 @@ export default function RouteCreationForm({
       intermediateStops: stops,
       description,
       price,
+      email: verifiedEmail,
     })
+  }
+
+  const handleCloseModal = () => {
+    setShowVerificationModal(false)
+  }
+
+  const handlePublish = () => {
+    // Validation de l'email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!email || !emailRegex.test(email)) {
+      // TODO: Afficher une erreur
+      return
+    }
+
+    // Déclencher la vérification par email
+    setShowVerificationModal(true)
   }
 
   return (
@@ -144,6 +173,32 @@ export default function RouteCreationForm({
         />
       </div>
 
+      {/* Email Field */}
+      <div>
+        <label
+          htmlFor="email"
+          className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Email
+        </label>
+        <div className="relative">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+            mail
+          </span>
+          <input
+            id="email"
+            type="email"
+            className="w-full h-12 pl-10 pr-4 py-3 bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+            placeholder="exemple@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+          Vous recevrez un code de vérification par email
+        </p>
+      </div>
+
       {/* Publish Button */}
       <div className="pt-3 sm:pt-4">
         <Button
@@ -157,6 +212,22 @@ export default function RouteCreationForm({
           {loading ? 'Publication en cours...' : FORM_LABELS.publishRoute}
         </Button>
       </div>
+
+      {/* Email Verification Modal */}
+      {showVerificationModal && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={handleCloseModal}
+        >
+          <div className="max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+            <EmailVerification
+              onVerified={handleEmailVerified}
+              loading={loading}
+              initialEmail={email}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

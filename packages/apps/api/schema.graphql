@@ -40,6 +40,12 @@ type Mutation {
   completeRoute(id: String!): RouteDto!
   createRoute(input: CreateRouteInput!): RouteDto!
   publishRoute(id: String!): RouteDto!
+
+  """Envoie un code de vérification par email"""
+  sendEmailCode(email: String!): Boolean!
+
+  """Vérifie le code email saisi par l'utilisateur"""
+  verifyEmailCode(code: String!, email: String!): Boolean!
 }
 
 type Query {
