@@ -14,9 +14,7 @@ module.exports = {
     // Échapper les chemins pour Windows
     const files = filenames.map((f) => f.replace(/\\/g, '/')).join(' ')
 
-    return [
-      `prettier --write --ignore-unknown ${files}`,
-    ]
+    return []
   },
 
   // Optionnel : ajouter ESLint pour les fichiers TS/TSX/JS/JSX

@@ -19,7 +19,11 @@
       "Bash(cat /c/Users/sofia/sakherli/packages/apps/frontend/app/src/App.tsx)",
       "Bash(cat /c/Users/sofia/sakherli/packages/apps/frontend/app/src/main.tsx)",
       "Bash(cat /c/Users/sofia/sakherli/packages/apps/frontend/app/src/components/Home.tsx)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(npm test -- RouteInMemory.spec.ts)",
+      "Bash(npm test -- --testPathPattern=RouteInMemory)",
+      "Bash(npm test -- --testPathPattern=RouteInMemory --testNamePattern=\"superset\")",
+      "Bash(npx prettier --write src/routes/adapters/driven/RouteInMemory.ts)"
     ],
     "deny": [],
     "ask": []
