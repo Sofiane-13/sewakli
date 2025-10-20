@@ -8,8 +8,19 @@ export default function Home() {
   const navigate = useNavigate()
 
   const handleSearchTransporter = (data: RouteSearchData) => {
-    console.log('Searching for transporter:', data)
-    // Logique de recherche à implémenter
+    // Créer les query params pour la recherche
+    const params = new URLSearchParams()
+    if (data.departureCountry)
+      params.append('departureCountry', data.departureCountry)
+    if (data.departureCity) params.append('departureCity', data.departureCity)
+    if (data.departureDate) params.append('departureDate', data.departureDate)
+    if (data.arrivalCountry)
+      params.append('arrivalCountry', data.arrivalCountry)
+    if (data.arrivalCity) params.append('arrivalCity', data.arrivalCity)
+    if (data.arrivalDate) params.append('arrivalDate', data.arrivalDate)
+
+    // Naviguer vers la page de résultats avec les query params
+    navigate(`/search-results?${params.toString()}`)
   }
 
   const handleProposeRoute = () => {

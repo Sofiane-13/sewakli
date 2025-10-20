@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client'
+import type { ApolloClient } from '@apollo/client'
 import {
   IRouteRepository,
   RouteResponse,
@@ -16,7 +16,7 @@ import {
 } from '../graphql/operations/route.graphql'
 
 export class GraphQLRouteRepository implements IRouteRepository {
-  constructor(private apolloClient: ApolloClient<unknown>) {}
+  constructor(private apolloClient: ApolloClient) {}
 
   async createRoute(
     data: RouteCreationData & { description: string; price: string },
@@ -44,11 +44,11 @@ export class GraphQLRouteRepository implements IRouteRepository {
       },
     })
 
-    if (!result.data?.createRoute) {
+    if (!(result.data as any)?.createRoute) {
       throw new Error('Failed to create route')
     }
 
-    return this.mapRouteResponse(result.data.createRoute)
+    return this.mapRouteResponse((result.data as any).createRoute)
   }
 
   async searchRoutes(criteria: RouteSearchData): Promise<RouteResponse[]> {
@@ -70,7 +70,11 @@ export class GraphQLRouteRepository implements IRouteRepository {
       },
     })
 
-    return result.data?.searchRoutes?.map(this.mapRouteResponse) || []
+    return (
+      (result.data as any)?.searchRoutes?.map(
+        this.mapRouteResponse.bind(this),
+      ) || []
+    )
   }
 
   async getRoute(id: string): Promise<RouteResponse | null> {
@@ -79,7 +83,9 @@ export class GraphQLRouteRepository implements IRouteRepository {
       variables: { id },
     })
 
-    return result.data?.route ? this.mapRouteResponse(result.data.route) : null
+    return (result.data as any)?.route
+      ? this.mapRouteResponse((result.data as any).route)
+      : null
   }
 
   async getAllRoutes(): Promise<RouteResponse[]> {
@@ -87,7 +93,9 @@ export class GraphQLRouteRepository implements IRouteRepository {
       query: GET_ALL_ROUTES,
     })
 
-    return result.data?.routes?.map(this.mapRouteResponse) || []
+    return (
+      (result.data as any)?.routes?.map(this.mapRouteResponse.bind(this)) || []
+    )
   }
 
   async getRoutesByTransporter(
@@ -98,7 +106,11 @@ export class GraphQLRouteRepository implements IRouteRepository {
       variables: { transporterId },
     })
 
-    return result.data?.routesByTransporter?.map(this.mapRouteResponse) || []
+    return (
+      (result.data as any)?.routesByTransporter?.map(
+        this.mapRouteResponse.bind(this),
+      ) || []
+    )
   }
 
   async publishRoute(id: string): Promise<RouteResponse> {
@@ -107,11 +119,11 @@ export class GraphQLRouteRepository implements IRouteRepository {
       variables: { id },
     })
 
-    if (!result.data?.publishRoute) {
+    if (!(result.data as any)?.publishRoute) {
       throw new Error('Failed to publish route')
     }
 
-    return this.mapRouteResponse(result.data.publishRoute)
+    return this.mapRouteResponse((result.data as any).publishRoute)
   }
 
   async cancelRoute(id: string): Promise<RouteResponse> {
@@ -120,11 +132,11 @@ export class GraphQLRouteRepository implements IRouteRepository {
       variables: { id },
     })
 
-    if (!result.data?.cancelRoute) {
+    if (!(result.data as any)?.cancelRoute) {
       throw new Error('Failed to cancel route')
     }
 
-    return this.mapRouteResponse(result.data.cancelRoute)
+    return this.mapRouteResponse((result.data as any).cancelRoute)
   }
 
   async completeRoute(id: string): Promise<RouteResponse> {
@@ -133,11 +145,11 @@ export class GraphQLRouteRepository implements IRouteRepository {
       variables: { id },
     })
 
-    if (!result.data?.completeRoute) {
+    if (!(result.data as any)?.completeRoute) {
       throw new Error('Failed to complete route')
     }
 
-    return this.mapRouteResponse(result.data.completeRoute)
+    return this.mapRouteResponse((result.data as any).completeRoute)
   }
 
   private mapRouteResponse(data: {
