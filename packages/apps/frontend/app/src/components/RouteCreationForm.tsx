@@ -47,7 +47,7 @@ export default function RouteCreationForm({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Departure */}
       <CityDateField
         label={FORM_LABELS.departure}
@@ -74,10 +74,10 @@ export default function RouteCreationForm({
 
       {/* Intermediate Stops Section */}
       <div>
-        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           {FORM_LABELS.intermediateStops}
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {stops.map((stop) => (
             <CityDateField
               key={stop.id}
@@ -97,9 +97,11 @@ export default function RouteCreationForm({
         <button
           onClick={addStop}
           type="button"
-          className="mt-4 flex items-center gap-2 text-primary font-medium hover:text-primary/80 transition-colors"
+          className="mt-3 sm:mt-4 flex items-center gap-2 text-primary text-sm sm:text-base font-medium hover:text-primary/80 transition-colors"
         >
-          <span className="material-symbols-outlined">add_circle</span>
+          <span className="material-symbols-outlined text-xl sm:text-2xl">
+            add_circle
+          </span>
           <span>{FORM_LABELS.addStop}</span>
         </button>
       </div>
@@ -108,14 +110,14 @@ export default function RouteCreationForm({
       <div>
         <label
           htmlFor="description"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
           {FORM_LABELS.description}
         </label>
         <textarea
           id="description"
           rows={4}
-          className="w-full bg-white/50 dark:bg-black/20 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+          className="w-full bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
           placeholder={PLACEHOLDERS.description}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -126,14 +128,14 @@ export default function RouteCreationForm({
       <div>
         <label
           htmlFor="price"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
           {FORM_LABELS.price}
         </label>
         <input
           id="price"
           type="number"
-          className="w-full bg-white/50 dark:bg-black/20 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+          className="w-full bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
           placeholder={PLACEHOLDERS.price}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
@@ -141,15 +143,15 @@ export default function RouteCreationForm({
       </div>
 
       {/* Publish Button */}
-      <div className="pt-4">
+      <div className="pt-3 sm:pt-4">
         <button
           onClick={handlePublish}
           type="button"
           disabled={loading}
-          className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full bg-primary text-white font-bold py-3 sm:py-3.5 px-4 rounded-lg hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           {loading && (
-            <span className="material-symbols-outlined animate-spin">
+            <span className="material-symbols-outlined animate-spin text-xl sm:text-2xl">
               progress_activity
             </span>
           )}

@@ -34,7 +34,7 @@ export default function RouteSearchForm({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg space-y-3">
+    <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl shadow-lg space-y-2.5 sm:space-y-3">
       {/* Departure */}
       <CityDateField
         label={FORM_LABELS.departure}
@@ -61,7 +61,7 @@ export default function RouteSearchForm({
 
       {/* Search Button */}
       <button
-        className="w-full bg-[#0f66bd] text-white font-semibold py-3 rounded-lg hover:bg-[#0d5ba8] transition-colors shadow-sm"
+        className="w-full bg-[#0f66bd] text-white font-semibold py-2.5 sm:py-3 rounded-lg hover:bg-[#0d5ba8] transition-colors shadow-sm text-sm sm:text-base"
         onClick={handleSearch}
         type="button"
       >
@@ -70,7 +70,7 @@ export default function RouteSearchForm({
 
       {/* Propose Route Button */}
       <button
-        className="w-full bg-[#e8f2fb] text-[#0f66bd] font-semibold py-3 rounded-lg hover:bg-[#d9ebf7] transition-colors"
+        className="w-full bg-white dark:bg-gray-700 border-2 border-[#0f66bd] text-[#0f66bd] dark:text-white font-semibold py-2.5 sm:py-3 rounded-lg hover:bg-[#0f66bd] hover:text-white transition-colors shadow-sm text-sm sm:text-base"
         onClick={onProposeRoute}
         type="button"
       >

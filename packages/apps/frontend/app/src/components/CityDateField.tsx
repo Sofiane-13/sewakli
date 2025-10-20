@@ -52,9 +52,9 @@ function CityDateField({
           </button>
         )}
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         {/* Country Select */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-0">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none z-10">
             {LOCATION_ICONS.country}
           </span>
@@ -76,7 +76,7 @@ function CityDateField({
         </div>
 
         {/* City Select */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-0">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none z-10">
             {cityIcon}
           </span>
@@ -99,7 +99,7 @@ function CityDateField({
         </div>
 
         {/* Date Input */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-0">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
             {LOCATION_ICONS.calendar}
           </span>
