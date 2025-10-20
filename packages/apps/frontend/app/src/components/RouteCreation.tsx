@@ -3,10 +3,12 @@ import Footer from './Footer'
 import RouteCreationForm from './RouteCreationForm'
 import { RouteCreationData } from '../types/route'
 import { useCreateRoute } from '../hooks/useCreateRoute'
+import { useTranslation } from '../hooks/useTranslation'
 import { Alert, AlertTitle, AlertDescription } from './ui/Alert'
 
 export default function RouteCreation() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { createRoute, loading, error } = useCreateRoute()
 
   const handlePublishRoute = async (
@@ -38,23 +40,34 @@ export default function RouteCreation() {
         <button
           onClick={handleBack}
           className="text-gray-800 dark:text-white hover:text-primary transition-colors flex-shrink-0"
-          aria-label="Retour"
+          aria-label={t('back')}
         >
           <span className="material-symbols-outlined text-xl sm:text-2xl">
             arrow_back
           </span>
         </button>
         <h1 className="flex-1 text-center text-base sm:text-xl font-bold text-gray-900 dark:text-white pr-6 sm:pr-8 truncate">
-          Publier un itinéraire
+          {t('publishRoute')}
         </h1>
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow px-3 py-4 sm:px-4 sm:py-6">
-        <div className="max-w-lg mx-auto w-full">
+      <main
+        className="flex-grow px-3 py-4 sm:px-4 sm:py-6 relative"
+        style={{
+          backgroundImage: 'url(/formitin.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        {/* Overlay pour améliorer la lisibilité */}
+        <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm" />
+
+        <div className="max-w-lg mx-auto w-full relative z-10">
           {error && (
             <Alert variant="error" className="mb-4">
-              <AlertTitle>Erreur lors de la création</AlertTitle>
+              <AlertTitle>{t('errorCreatingRoute')}</AlertTitle>
               <AlertDescription>{error.message}</AlertDescription>
             </Alert>
           )}

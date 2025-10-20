@@ -4,11 +4,14 @@ import { ApolloProvider } from '@apollo/client/react'
 import './index.css'
 import App from './App.tsx'
 import { apolloClient } from './infrastructure/graphql/apolloClient'
+import { LanguageProvider } from './contexts/LanguageContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ApolloProvider client={apolloClient}>
-      <App />
-    </ApolloProvider>
+    <LanguageProvider>
+      <ApolloProvider client={apolloClient}>
+        <App />
+      </ApolloProvider>
+    </LanguageProvider>
   </StrictMode>,
 )

@@ -3,6 +3,7 @@ import { Button } from './ui/Button'
 import { Card, CardContent } from './ui/Card'
 import { Alert, AlertDescription } from './ui/Alert'
 import { useEmailVerification } from '../hooks/useEmailVerification'
+import { useTranslation } from '../hooks/useTranslation'
 
 interface EmailVerificationProps {
   onVerified: (email: string) => void
@@ -15,6 +16,7 @@ export default function EmailVerification({
   loading = false,
   initialEmail = '',
 }: EmailVerificationProps) {
+  const { t } = useTranslation()
   const [email, setEmail] = useState(initialEmail)
   const [code, setCode] = useState('')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -29,7 +31,7 @@ export default function EmailVerification({
     // Validation de l'email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!email || !emailRegex.test(email)) {
-      setErrorMessage('Veuillez entrer une adresse email valide')
+      setErrorMessage(t('invalidEmail'))
       return
     }
 
@@ -37,7 +39,7 @@ export default function EmailVerification({
     if (success) {
       setCodeSent(true)
     } else {
-      setErrorMessage(error?.message || "Erreur lors de l'envoi du code")
+      setErrorMessage(error?.message || t('errorCreatingRoute'))
     }
   }
 
@@ -53,7 +55,7 @@ export default function EmailVerification({
     setErrorMessage(null)
 
     if (!code || code.length !== 6) {
-      setErrorMessage('Veuillez entrer un code à 6 chiffres')
+      setErrorMessage(t('verificationCodePlaceholder'))
       return
     }
 
@@ -62,7 +64,7 @@ export default function EmailVerification({
       // Code vérifié avec succès
       onVerified(email)
     } else {
-      setErrorMessage(error?.message || 'Code invalide ou expiré')
+      setErrorMessage(error?.message || t('invalidEmail'))
     }
   }
 
@@ -80,7 +82,7 @@ export default function EmailVerification({
             email
           </span>
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-            Vérification par email
+            {t('emailVerification')}
           </h3>
         </div>
 
@@ -98,7 +100,7 @@ export default function EmailVerification({
                   htmlFor="email"
                   className="block text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2"
                 >
-                  Adresse email
+                  {t('email')}
                 </label>
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
@@ -108,14 +110,14 @@ export default function EmailVerification({
                     id="email"
                     type="email"
                     className="w-full h-12 pl-10 pr-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                    placeholder="exemple@email.com"
+                    placeholder={t('emailPlaceholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={sendingCode}
                   />
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Vous recevrez un code de vérification par email
+                  {t('emailVerificationInfo')}
                 </p>
               </div>
 
@@ -127,7 +129,7 @@ export default function EmailVerification({
                 isLoading={sendingCode}
                 disabled={sendingCode || !email}
               >
-                {sendingCode ? 'Envoi en cours...' : 'Recevoir le code'}
+                {sendingCode ? t('publishing') : t('verifyButton')}
               </Button>
             </div>
           ) : (
@@ -138,14 +140,14 @@ export default function EmailVerification({
                     htmlFor="code"
                     className="block text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide"
                   >
-                    Code de vérification
+                    {t('enterVerificationCode')}
                   </label>
                   <button
                     onClick={handleChangeEmail}
                     className="text-xs text-primary hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
                     type="button"
                   >
-                    Modifier l'email
+                    {t('changeEmail')}
                   </button>
                 </div>
                 <div className="relative">
@@ -165,7 +167,7 @@ export default function EmailVerification({
                   />
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Code envoyé à {email}
+                  {t('verificationCodeSent')} {email}
                 </p>
               </div>
 
@@ -178,7 +180,7 @@ export default function EmailVerification({
                   isLoading={verifyingCode}
                   disabled={verifyingCode || code.length !== 6}
                 >
-                  {verifyingCode ? 'Vérification...' : 'Vérifier le code'}
+                  {verifyingCode ? t('verifying') : t('verifyButton')}
                 </Button>
 
                 <Button
@@ -188,7 +190,7 @@ export default function EmailVerification({
                   className="w-full"
                   disabled={sendingCode}
                 >
-                  Renvoyer le code
+                  {t('resendCode')}
                 </Button>
               </div>
             </div>

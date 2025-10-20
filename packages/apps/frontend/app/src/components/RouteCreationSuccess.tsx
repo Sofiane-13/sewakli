@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Button } from './ui/Button'
 import { Alert, AlertDescription } from './ui/Alert'
+import { useTranslation } from '../hooks/useTranslation'
 
 interface CreatedRoute {
   id: string
@@ -29,6 +30,7 @@ interface LocationState {
 export const RouteCreationSuccess = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const { t, language } = useTranslation()
   const state = location.state as LocationState
   const createdRoute = state?.route
 
@@ -43,9 +45,22 @@ export const RouteCreationSuccess = () => {
     return null
   }
 
+  const getLocale = () => {
+    switch (language) {
+      case 'fr':
+        return 'fr-FR'
+      case 'en':
+        return 'en-US'
+      case 'ar':
+        return 'ar-SA'
+      default:
+        return 'fr-FR'
+    }
+  }
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return new Intl.DateTimeFormat('fr-FR', {
+    return new Intl.DateTimeFormat(getLocale(), {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
@@ -55,8 +70,8 @@ export const RouteCreationSuccess = () => {
   }
 
   const formatPrice = (price?: number) => {
-    if (!price) return 'Non spécifié'
-    return new Intl.NumberFormat('fr-FR', {
+    if (!price) return t('noResults')
+    return new Intl.NumberFormat(getLocale(), {
       style: 'currency',
       currency: 'EUR',
     }).format(price)
@@ -77,11 +92,10 @@ export const RouteCreationSuccess = () => {
 
             {/* Success Title */}
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Itinéraire créé avec succès !
+              {t('routeCreatedSuccessTitle')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Votre itinéraire a été publié et est maintenant disponible pour
-              les utilisateurs
+              {t('routeNowAvailable')}
             </p>
           </div>
         </div>
@@ -90,13 +104,13 @@ export const RouteCreationSuccess = () => {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sm:p-8 mb-6">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
             <span className="material-symbols-outlined">route</span>
-            Détails de l'itinéraire
+            {t('routeDetails')}
           </h2>
 
           {/* Route ID */}
           <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-              Identifiant
+              {t('identifier')}
             </p>
             <p className="font-mono text-sm text-gray-900 dark:text-white break-all">
               {createdRoute.id}
@@ -113,7 +127,7 @@ export const RouteCreationSuccess = () => {
               </div>
               <div className="flex-1">
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  Départ
+                  {t('departure')}
                 </p>
                 <p className="font-semibold text-gray-900 dark:text-white">
                   {createdRoute.departureCity}, {createdRoute.departureCountry}
@@ -134,7 +148,7 @@ export const RouteCreationSuccess = () => {
                 </div>
                 <div className="flex-1 space-y-4">
                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Arrêts intermédiaires
+                    {t('intermediateStopsLabel')}
                   </p>
                   {createdRoute.intermediateStops.map((stop, index) => (
                     <div key={stop.id} className="flex items-start gap-3 pl-0">
@@ -168,7 +182,7 @@ export const RouteCreationSuccess = () => {
               </div>
               <div className="flex-1">
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  Arrivée
+                  {t('arrival')}
                 </p>
                 <p className="font-semibold text-gray-900 dark:text-white">
                   {createdRoute.arrivalCity}, {createdRoute.arrivalCountry}
@@ -186,7 +200,7 @@ export const RouteCreationSuccess = () => {
             {createdRoute.description && (
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  Description
+                  {t('description')}
                 </p>
                 <p className="text-gray-900 dark:text-white">
                   {createdRoute.description}
@@ -198,7 +212,7 @@ export const RouteCreationSuccess = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  Prix
+                  {t('price')}
                 </p>
                 <p className="font-semibold text-gray-900 dark:text-white">
                   {formatPrice(createdRoute.price)}
@@ -206,11 +220,11 @@ export const RouteCreationSuccess = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  Statut
+                  {t('status')}
                 </p>
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                   {createdRoute.status === 'PUBLISHED'
-                    ? 'Publié'
+                    ? t('published')
                     : createdRoute.status}
                 </span>
               </div>
@@ -227,7 +241,7 @@ export const RouteCreationSuccess = () => {
             size="lg"
           >
             <span className="material-symbols-outlined">home</span>
-            Retour à l'accueil
+            {t('backToHome')}
           </Button>
 
           <Button
@@ -237,7 +251,7 @@ export const RouteCreationSuccess = () => {
             size="lg"
           >
             <span className="material-symbols-outlined">add_circle</span>
-            Créer un autre itinéraire
+            {t('createAnotherRoute')}
           </Button>
         </div>
 
@@ -248,9 +262,7 @@ export const RouteCreationSuccess = () => {
               info
             </span>
             <AlertDescription>
-              <strong>Prochaines étapes :</strong> Votre itinéraire est
-              maintenant visible par tous les utilisateurs. Vous recevrez des
-              notifications lorsque des utilisateurs manifesteront leur intérêt.
+              <strong>{t('nextSteps')} :</strong> {t('nextStepsInfo')}
             </AlertDescription>
           </div>
         </Alert>

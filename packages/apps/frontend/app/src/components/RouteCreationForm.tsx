@@ -4,8 +4,8 @@ import EmailVerification from './EmailVerification'
 import { RouteCreationData } from '../types/route'
 import { useLocation } from '../hooks/useLocation'
 import { useIntermediateStops } from '../hooks/useIntermediateStops'
+import { useTranslation } from '../hooks/useTranslation'
 import { LOCATION_ICONS } from '../constants/icons'
-import { FORM_LABELS, PLACEHOLDERS } from '../constants/labels'
 import { Button } from './ui/Button'
 
 interface RouteCreationFormProps {
@@ -23,6 +23,7 @@ export default function RouteCreationForm({
   onPublish,
   loading = false,
 }: RouteCreationFormProps) {
+  const { t } = useTranslation()
   // Departure location
   const departure = useLocation()
   const [departureDate, setDepartureDate] = useState('')
@@ -80,7 +81,7 @@ export default function RouteCreationForm({
     <div className="space-y-4 sm:space-y-6">
       {/* Departure */}
       <CityDateField
-        label={FORM_LABELS.departure}
+        label={t('departure')}
         countryValue={departure.country}
         cityValue={departure.city}
         dateValue={departureDate}
@@ -92,7 +93,7 @@ export default function RouteCreationForm({
 
       {/* Arrival */}
       <CityDateField
-        label={FORM_LABELS.arrival}
+        label={t('arrival')}
         countryValue={arrival.country}
         cityValue={arrival.city}
         dateValue={arrivalDate}
@@ -105,13 +106,13 @@ export default function RouteCreationForm({
       {/* Intermediate Stops Section */}
       <div>
         <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-          {FORM_LABELS.intermediateStops}
+          {t('intermediateStops')}
         </h2>
         <div className="space-y-3 sm:space-y-4">
           {stops.map((stop) => (
             <CityDateField
               key={stop.id}
-              label={FORM_LABELS.intermediate}
+              label={t('intermediate')}
               countryValue={stop.country}
               cityValue={stop.city}
               dateValue={stop.date}
@@ -133,7 +134,7 @@ export default function RouteCreationForm({
           <span className="material-symbols-outlined text-xl sm:text-2xl">
             add_circle
           </span>
-          <span>{FORM_LABELS.addStop}</span>
+          <span>{t('addStop')}</span>
         </Button>
       </div>
 
@@ -143,13 +144,13 @@ export default function RouteCreationForm({
           htmlFor="description"
           className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
-          {FORM_LABELS.description}
+          {t('description')}
         </label>
         <textarea
           id="description"
           rows={4}
           className="w-full bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-          placeholder={PLACEHOLDERS.description}
+          placeholder={t('descriptionPlaceholder')}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -161,13 +162,13 @@ export default function RouteCreationForm({
           htmlFor="price"
           className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
-          {FORM_LABELS.price}
+          {t('price')}
         </label>
         <input
           id="price"
           type="number"
           className="w-full bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-          placeholder={PLACEHOLDERS.price}
+          placeholder={t('pricePlaceholder')}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
@@ -179,7 +180,7 @@ export default function RouteCreationForm({
           htmlFor="email"
           className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
-          Email
+          {t('email')}
         </label>
         <div className="relative">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
@@ -189,13 +190,13 @@ export default function RouteCreationForm({
             id="email"
             type="email"
             className="w-full h-12 pl-10 pr-4 py-3 bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-            placeholder="exemple@email.com"
+            placeholder={t('emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-          Vous recevrez un code de vérification par email
+          {t('emailVerificationInfo')}
         </p>
       </div>
 
@@ -209,7 +210,7 @@ export default function RouteCreationForm({
           isLoading={loading}
           disabled={loading}
         >
-          {loading ? 'Publication en cours...' : FORM_LABELS.publishRoute}
+          {loading ? t('publishing') : t('publishButton')}
         </Button>
       </div>
 

@@ -2,8 +2,8 @@ import { useState } from 'react'
 import CityDateField from './CityDateField'
 import { RouteSearchData } from '../types/route'
 import { useLocation } from '../hooks/useLocation'
+import { useTranslation } from '../hooks/useTranslation'
 import { LOCATION_ICONS } from '../constants/icons'
-import { FORM_LABELS } from '../constants/labels'
 import { Button } from './ui/Button'
 
 interface RouteSearchFormProps {
@@ -15,6 +15,8 @@ export default function RouteSearchForm({
   onSearch,
   onProposeRoute,
 }: RouteSearchFormProps) {
+  const { t } = useTranslation()
+
   // Departure location
   const departure = useLocation()
   const [departureDate, setDepartureDate] = useState('')
@@ -38,7 +40,7 @@ export default function RouteSearchForm({
     <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl shadow-lg space-y-2.5 sm:space-y-3">
       {/* Departure */}
       <CityDateField
-        label={FORM_LABELS.departure}
+        label={t('departure')}
         countryValue={departure.country}
         cityValue={departure.city}
         dateValue={departureDate}
@@ -50,7 +52,7 @@ export default function RouteSearchForm({
 
       {/* Arrival */}
       <CityDateField
-        label={FORM_LABELS.arrival}
+        label={t('arrival')}
         countryValue={arrival.country}
         cityValue={arrival.city}
         dateValue={arrivalDate}
@@ -67,7 +69,7 @@ export default function RouteSearchForm({
         onClick={handleSearch}
         type="button"
       >
-        {FORM_LABELS.searchTransporter}
+        {t('searchTransporter')}
       </Button>
 
       {/* Propose Route Button */}
@@ -77,7 +79,7 @@ export default function RouteSearchForm({
         onClick={onProposeRoute}
         type="button"
       >
-        {FORM_LABELS.proposeRoute}
+        {t('proposeRoute')}
       </Button>
     </div>
   )

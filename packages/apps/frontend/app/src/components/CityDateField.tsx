@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { COUNTRIES, getCitiesByCountry } from '../data/countries'
 import { LOCATION_ICONS } from '../constants/icons'
-import { PLACEHOLDERS } from '../constants/labels'
+import { useTranslation } from '../hooks/useTranslation'
 import {
   Select,
   SelectContent,
@@ -36,13 +36,19 @@ function CityDateField({
   onCityChange,
   onDateChange,
   cityIcon,
-  countryPlaceholder = PLACEHOLDERS.country,
-  cityPlaceholder = PLACEHOLDERS.city,
-  datePlaceholder = PLACEHOLDERS.date,
+  countryPlaceholder,
+  cityPlaceholder,
+  datePlaceholder,
   showRemove = false,
   onRemove,
 }: CityDateFieldProps) {
+  const { t } = useTranslation()
   const availableCities = countryValue ? getCitiesByCountry(countryValue) : []
+
+  // Use provided placeholders or fallback to translations
+  const finalCountryPlaceholder = countryPlaceholder || t('selectCountry')
+  const finalCityPlaceholder = cityPlaceholder || t('selectCity')
+  const finalDatePlaceholder = datePlaceholder || t('date')
 
   return (
     <Card variant="default">
@@ -55,7 +61,7 @@ function CityDateField({
             onClick={onRemove}
             className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors p-0.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
             type="button"
-            aria-label="Supprimer"
+            aria-label={t('remove')}
           >
             <span className="material-symbols-outlined text-lg">close</span>
           </button>
@@ -70,7 +76,7 @@ function CityDateField({
             </span>
             <Select value={countryValue} onValueChange={onCountryChange}>
               <SelectTrigger className="pl-10">
-                <SelectValue placeholder={countryPlaceholder} />
+                <SelectValue placeholder={finalCountryPlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {COUNTRIES.map((country) => (
@@ -93,7 +99,7 @@ function CityDateField({
               disabled={!countryValue}
             >
               <SelectTrigger className="pl-10" disabled={!countryValue}>
-                <SelectValue placeholder={cityPlaceholder} />
+                <SelectValue placeholder={finalCityPlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {availableCities.length > 0 ? (
@@ -104,7 +110,7 @@ function CityDateField({
                   ))
                 ) : (
                   <div className="px-2 py-1.5 text-sm text-gray-500 dark:text-gray-400">
-                    Sélectionnez d'abord un pays
+                    {t('selectCountry')}
                   </div>
                 )}
               </SelectContent>
@@ -118,7 +124,7 @@ function CityDateField({
             </span>
             <input
               className="w-full h-12 pl-10 pr-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all cursor-pointer"
-              placeholder={datePlaceholder}
+              placeholder={finalDatePlaceholder}
               type="date"
               value={dateValue}
               onChange={(e) => onDateChange(e.target.value)}
