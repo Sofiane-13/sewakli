@@ -9,9 +9,7 @@ interface UseGetAllRoutesReturn {
   refetch: () => Promise<void>
 }
 
-export const useGetAllRoutes = (
-  fetchOnMount = true,
-): UseGetAllRoutesReturn => {
+export const useGetAllRoutes = (fetchOnMount = true): UseGetAllRoutesReturn => {
   const repository = useRouteRepository()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)

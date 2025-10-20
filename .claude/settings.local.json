@@ -11,7 +11,10 @@
       "Bash(powershell \"Get-Process node -ErrorAction SilentlyContinue\")",
       "Bash(taskkill /F /PID 15108)",
       "Bash(powershell \"Stop-Process -Id 15108 -Force\")",
-      "Bash(powershell \"Stop-Process -Id 28616 -Force\")"
+      "Bash(powershell \"Stop-Process -Id 28616 -Force\")",
+      "Bash(powershell \"Get-Process | Where-Object {$_ProcessName -eq ''node''} | Select-Object Id, ProcessName, CPU\")",
+      "Bash(git commit --no-verify -m \"$(cat <<''EOF''\nfeat: Integrate GraphQL for route management in frontend\n\n- Configure Apollo Client with environment-based GraphQL endpoint\n- Implement GraphQL operations for routes (create, list, search)\n- Add repository pattern with GraphQLRouteRepository\n- Create React hooks (useCreateRoute, useGetAllRoutes, useSearchRoutes)\n- Update RouteCreation component to use GraphQL hooks\n- Add GraphQL code generation setup\n- Include environment configuration files\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git add -A)"
     ],
     "deny": [],
     "ask": []

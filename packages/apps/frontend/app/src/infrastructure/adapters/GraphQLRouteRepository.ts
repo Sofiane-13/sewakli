@@ -98,9 +98,7 @@ export class GraphQLRouteRepository implements IRouteRepository {
       variables: { transporterId },
     })
 
-    return (
-      result.data?.routesByTransporter?.map(this.mapRouteResponse) || []
-    )
+    return result.data?.routesByTransporter?.map(this.mapRouteResponse) || []
   }
 
   async publishRoute(id: string): Promise<RouteResponse> {
