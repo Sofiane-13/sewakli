@@ -1,5 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { EmailService } from '../infrastructure/EmailService'
+import {
+  VerificationCodeNotFoundException,
+  VerificationCodeExpiredException,
+  TooManyAttemptsException,
+  InvalidVerificationCodeException,
+  EmailSendFailedException,
+} from '../../common/exceptions'
 
 interface VerificationCode {
   code: string
@@ -8,6 +15,18 @@ interface VerificationCode {
   attempts: number
 }
 
+/**
+ * AuthService handles email-based OTP verification
+ *
+ * Features:
+ * - 6-digit verification codes
+ * - 10-minute expiration window
+ * - 3-attempt limit per code
+ * - Automatic cleanup of expired codes
+ *
+ * @remarks
+ * Currently stores codes in-memory. Consider migrating to Redis for production.
+ */
 @Injectable()
 export class AuthService {
   private verificationCodes: Map<string, VerificationCode> = new Map()
@@ -16,14 +35,22 @@ export class AuthService {
 
   constructor(private readonly emailService: EmailService) {}
 
+  /**
+   * Generates and sends a verification code to the provided email
+   *
+   * @param email - The email address to send the code to
+   * @returns Promise<boolean> - true if code was sent successfully
+   * @throws EmailSendFailedException if email sending fails
+   */
   async sendVerificationCode(email: string): Promise<boolean> {
-    // Générer un code à 6 chiffres
-    const code = Math.floor(100000 + Math.random() * 900000).toString()
+    // Generate 6-digit code
+    const code = this.generateVerificationCode()
 
-    // Stocker le code avec expiration
+    // Set expiration time
     const expiresAt = new Date()
     expiresAt.setMinutes(expiresAt.getMinutes() + this.CODE_EXPIRY_MINUTES)
 
+    // Store code
     this.verificationCodes.set(email, {
       code,
       email,
@@ -31,7 +58,7 @@ export class AuthService {
       attempts: 0,
     })
 
-    // Envoyer le code par email via Amazon SES
+    // Send code via email
     try {
       await this.emailService.sendVerificationCode(
         email,
@@ -40,44 +67,64 @@ export class AuthService {
       )
       return true
     } catch (error) {
-      console.error('Error sending email code:', error)
-      throw new Error("Impossible d'envoyer le code de vérification")
+      // Clean up stored code on send failure
+      this.verificationCodes.delete(email)
+      throw new EmailSendFailedException(
+        email,
+        error instanceof Error ? error : undefined,
+      )
     }
   }
 
+  /**
+   * Verifies a code against the stored code for the email
+   *
+   * @param email - The email address
+   * @param code - The verification code to check
+   * @returns boolean - true if code is valid
+   * @throws VerificationCodeNotFoundException if no code found for email
+   * @throws VerificationCodeExpiredException if code has expired
+   * @throws TooManyAttemptsException if max attempts exceeded
+   * @throws InvalidVerificationCodeException if code doesn't match
+   */
   verifyCode(email: string, code: string): boolean {
     const storedData = this.verificationCodes.get(email)
 
+    // Check if code exists
     if (!storedData) {
-      throw new Error('Aucun code de vérification trouvé pour cet email')
+      throw new VerificationCodeNotFoundException(email)
     }
 
-    // Vérifier l'expiration
+    // Check expiration
     if (new Date() > storedData.expiresAt) {
       this.verificationCodes.delete(email)
-      throw new Error('Le code de vérification a expiré')
+      throw new VerificationCodeExpiredException()
     }
 
-    // Vérifier le nombre de tentatives
+    // Check attempt limit
     if (storedData.attempts >= this.MAX_ATTEMPTS) {
       this.verificationCodes.delete(email)
-      throw new Error('Trop de tentatives. Demandez un nouveau code.')
+      throw new TooManyAttemptsException(this.MAX_ATTEMPTS)
     }
 
-    // Incrémenter les tentatives
+    // Increment attempts
     storedData.attempts++
 
-    // Vérifier le code
+    // Verify code
     if (storedData.code !== code) {
-      return false
+      // Don't delete on wrong code - allow more attempts
+      throw new InvalidVerificationCodeException()
     }
 
-    // Code valide - le supprimer
+    // Code valid - clean up
     this.verificationCodes.delete(email)
     return true
   }
 
-  // Nettoyer les codes expirés périodiquement
+  /**
+   * Cleans up expired verification codes
+   * Should be called periodically (e.g., via cron job)
+   */
   cleanExpiredCodes(): void {
     const now = new Date()
     for (const [email, data] of this.verificationCodes.entries()) {
@@ -85,5 +132,20 @@ export class AuthService {
         this.verificationCodes.delete(email)
       }
     }
+  }
+
+  /**
+   * Generates a random 6-digit verification code
+   * @private
+   */
+  private generateVerificationCode(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString()
+  }
+
+  /**
+   * Get current number of stored codes (for monitoring)
+   */
+  getStoredCodesCount(): number {
+    return this.verificationCodes.size
   }
 }

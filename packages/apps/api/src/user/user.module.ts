@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { UserResolver } from './adapters/driving/UserResolver'
-import { UserService } from './domain/inboudPorts/UserService'
+import { UserService } from './domain/inboundPorts/UserService'
 import { IUserRepository } from './domain/outboundPorts/IUserRepository'
 import { UserInMemory } from './adapters/driven/UserInMemory'
 

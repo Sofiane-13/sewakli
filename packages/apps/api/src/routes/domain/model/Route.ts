@@ -1,6 +1,13 @@
 import { randomUUID } from 'crypto'
 import { CreateIntermediateStop, IntermediateStop } from './IntermediateStop'
-import { RouteErrors } from '../errors/RouteErrors'
+import {
+  ArrivalBeforeDepartureException,
+  NegativePriceException,
+  InvalidIntermediateStopsOrderException,
+  CannotPublishRouteException,
+  CannotCancelRouteException,
+  CannotCompleteRouteException,
+} from '../exceptions/route.exceptions'
 
 export enum RouteStatus {
   CREATED = 'CREATED',
@@ -61,21 +68,29 @@ export class Route {
     this.validate()
   }
 
-  // Business validation
+  /**
+   * Validates business rules for the route
+   * @private
+   * @throws ArrivalBeforeDepartureException if arrival is not after departure
+   * @throws NegativePriceException if price is negative
+   * @throws InvalidIntermediateStopsOrderException if stops are not chronologically ordered
+   */
   private validate(): void {
+    // Validate dates
     if (this.departureDate >= this.arrivalDate) {
-      throw new Error(RouteErrors.ARRIVAL_BEFORE_DEPARTURE)
+      throw new ArrivalBeforeDepartureException()
     }
 
+    // Validate price
     if (this.price !== undefined && this.price < 0) {
-      throw new Error(RouteErrors.NEGATIVE_PRICE)
+      throw new NegativePriceException(this.price)
     }
 
-    // Validate intermediate stops are chronologically ordered
+    // Validate intermediate stops chronological order
     let lastDate = this.departureDate
     for (const stop of this.intermediateStops) {
       if (stop.date <= lastDate || stop.date >= this.arrivalDate) {
-        throw new Error(RouteErrors.INVALID_INTERMEDIATE_STOPS_ORDER)
+        throw new InvalidIntermediateStopsOrderException()
       }
       lastDate = stop.date
     }
@@ -101,28 +116,40 @@ export class Route {
     return this.intermediateStops.length > 0
   }
 
-  // Factory method for published route
+  /**
+   * Transitions route to PUBLISHED status
+   * @returns new Route instance with PUBLISHED status
+   * @throws CannotPublishRouteException if route cannot be published from current status
+   */
   publish(): Route {
     if (!this.canBeModified()) {
-      throw new Error(RouteErrors.CANNOT_PUBLISH_INVALID_STATUS)
+      throw new CannotPublishRouteException(this.status)
     }
 
     return this.withStatus(RouteStatus.PUBLISHED)
   }
 
-  // Factory method for cancelled route
+  /**
+   * Transitions route to CANCELLED status
+   * @returns new Route instance with CANCELLED status
+   * @throws CannotCancelRouteException if route cannot be cancelled from current status
+   */
   cancel(): Route {
     if (!this.canBeModified()) {
-      throw new Error(RouteErrors.CANNOT_CANCEL_INVALID_STATUS)
+      throw new CannotCancelRouteException(this.status)
     }
 
     return this.withStatus(RouteStatus.CANCELLED)
   }
 
-  // Factory method for completed route
+  /**
+   * Transitions route to COMPLETED status
+   * @returns new Route instance with COMPLETED status
+   * @throws CannotCompleteRouteException if route is not in PUBLISHED status
+   */
   complete(): Route {
     if (this.status !== RouteStatus.PUBLISHED) {
-      throw new Error(RouteErrors.ONLY_PUBLISHED_CAN_COMPLETE)
+      throw new CannotCompleteRouteException(this.status)
     }
 
     return this.withStatus(RouteStatus.COMPLETED)
