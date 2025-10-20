@@ -5,6 +5,7 @@ import { useLocation } from '../hooks/useLocation'
 import { useIntermediateStops } from '../hooks/useIntermediateStops'
 import { LOCATION_ICONS } from '../constants/icons'
 import { FORM_LABELS, PLACEHOLDERS } from '../constants/labels'
+import { Button } from './ui/Button'
 
 interface RouteCreationFormProps {
   onPublish: (
@@ -94,16 +95,17 @@ export default function RouteCreationForm({
             />
           ))}
         </div>
-        <button
+        <Button
           onClick={addStop}
           type="button"
-          className="mt-3 sm:mt-4 flex items-center gap-2 text-primary text-sm sm:text-base font-medium hover:text-primary/80 transition-colors"
+          variant="ghost"
+          className="mt-3 sm:mt-4"
         >
           <span className="material-symbols-outlined text-xl sm:text-2xl">
             add_circle
           </span>
           <span>{FORM_LABELS.addStop}</span>
-        </button>
+        </Button>
       </div>
 
       {/* Description */}
@@ -144,19 +146,16 @@ export default function RouteCreationForm({
 
       {/* Publish Button */}
       <div className="pt-3 sm:pt-4">
-        <button
+        <Button
           onClick={handlePublish}
           type="button"
+          variant="primary"
+          className="w-full"
+          isLoading={loading}
           disabled={loading}
-          className="w-full bg-primary text-white font-bold py-3 sm:py-3.5 px-4 rounded-lg hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
         >
-          {loading && (
-            <span className="material-symbols-outlined animate-spin text-xl sm:text-2xl">
-              progress_activity
-            </span>
-          )}
           {loading ? 'Publication en cours...' : FORM_LABELS.publishRoute}
-        </button>
+        </Button>
       </div>
     </div>
   )

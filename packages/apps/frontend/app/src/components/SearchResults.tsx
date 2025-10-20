@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Footer from './Footer'
 import { useSearchRoutes } from '../hooks/useSearchRoutes'
 import { RouteResponse } from '../domain/ports/IRouteRepository'
+import { Button } from './ui/Button'
+import { Alert, AlertDescription } from './ui/Alert'
 
 export default function SearchResults() {
   const navigate = useNavigate()
@@ -137,9 +139,11 @@ export default function SearchResults() {
           )}
 
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-800 dark:text-red-200">
-              {error.message || 'Une erreur est survenue'}
-            </div>
+            <Alert variant="error">
+              <AlertDescription>
+                {error.message || 'Une erreur est survenue'}
+              </AlertDescription>
+            </Alert>
           )}
 
           {!loading && !error && routes.length === 0 && (
@@ -147,12 +151,9 @@ export default function SearchResults() {
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
                 Aucun itinéraire trouvé pour cette recherche
               </p>
-              <button
-                onClick={handleBack}
-                className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
-              >
+              <Button onClick={handleBack} variant="primary">
                 Nouvelle recherche
-              </button>
+              </Button>
             </div>
           )}
 
@@ -181,12 +182,13 @@ export default function SearchResults() {
                       </p>
                     )}
                   </div>
-                  <button
+                  <Button
                     onClick={() => handleContactTransporter(route)}
-                    className="flex h-10 sm:h-10 w-full sm:w-auto sm:min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg px-4 bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors"
+                    variant="primary"
+                    className="w-full sm:w-auto sm:min-w-[84px]"
                   >
-                    <span>Contact</span>
-                  </button>
+                    Contact
+                  </Button>
                 </div>
               ))}
             </div>

@@ -4,6 +4,7 @@ import { RouteSearchData } from '../types/route'
 import { useLocation } from '../hooks/useLocation'
 import { LOCATION_ICONS } from '../constants/icons'
 import { FORM_LABELS } from '../constants/labels'
+import { Button } from './ui/Button'
 
 interface RouteSearchFormProps {
   onSearch: (data: RouteSearchData) => void
@@ -60,22 +61,24 @@ export default function RouteSearchForm({
       />
 
       {/* Search Button */}
-      <button
-        className="w-full bg-[#0f66bd] text-white font-semibold py-2.5 sm:py-3 rounded-lg hover:bg-[#0d5ba8] transition-colors shadow-sm text-sm sm:text-base"
+      <Button
+        variant="primary"
+        className="w-full"
         onClick={handleSearch}
         type="button"
       >
         {FORM_LABELS.searchTransporter}
-      </button>
+      </Button>
 
       {/* Propose Route Button */}
-      <button
-        className="w-full bg-white dark:bg-gray-700 border-2 border-[#0f66bd] text-[#0f66bd] dark:text-white font-semibold py-2.5 sm:py-3 rounded-lg hover:bg-[#0f66bd] hover:text-white transition-colors shadow-sm text-sm sm:text-base"
+      <Button
+        variant="outline"
+        className="w-full"
         onClick={onProposeRoute}
         type="button"
       >
         {FORM_LABELS.proposeRoute}
-      </button>
+      </Button>
     </div>
   )
 }

@@ -24,7 +24,16 @@
       "Bash(npm test -- --testPathPattern=RouteInMemory)",
       "Bash(npm test -- --testPathPattern=RouteInMemory --testNamePattern=\"superset\")",
       "Bash(npx prettier --write src/routes/adapters/driven/RouteInMemory.ts)",
-      "Bash(npx prettier --write src/components/RouteCreationSuccess.tsx src/components/RouteCreation.tsx src/App.tsx)"
+      "Bash(npx prettier --write src/components/RouteCreationSuccess.tsx src/components/RouteCreation.tsx src/App.tsx)",
+      "Bash(pnpm add @radix-ui/react-select @radix-ui/react-alert-dialog @radix-ui/react-label @radix-ui/react-icons)",
+      "Bash(npx prettier --write \"src/components/**/*.{ts,tsx}\")",
+      "Bash(npx prettier --write src/components/RouteCreation.tsx)",
+      "Bash(npx prettier --write src/components/ui/Button.tsx src/components/RouteCreationSuccess.tsx)",
+      "Bash(npm run dev)",
+      "Bash(pnpm add clsx tailwind-merge)",
+      "Bash(npx prettier --write src/lib/utils.ts src/components/ui/Button.tsx)",
+      "Bash(npx prettier --write src/index.css)",
+      "Bash(npx prettier --write \"src/components/ui/Card.tsx\" \"src/components/CityDateField.tsx\")"
     ],
     "deny": [],
     "ask": []

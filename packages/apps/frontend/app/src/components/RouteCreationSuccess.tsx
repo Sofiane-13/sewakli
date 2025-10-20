@@ -1,5 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Button } from './ui/Button'
+import { Alert, AlertDescription } from './ui/Alert'
 
 interface CreatedRoute {
   id: string
@@ -218,39 +220,40 @@ export const RouteCreationSuccess = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <button
+          <Button
             onClick={() => navigate('/')}
-            className="flex-1 bg-primary hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2 shadow-lg"
+            variant="primary"
+            className="flex-1"
+            size="lg"
           >
             <span className="material-symbols-outlined">home</span>
             Retour à l'accueil
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={() => navigate('/create-route')}
-            className="flex-1 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2 shadow-lg border border-gray-200 dark:border-gray-700"
+            variant="secondary"
+            className="flex-1"
+            size="lg"
           >
             <span className="material-symbols-outlined">add_circle</span>
             Créer un autre itinéraire
-          </button>
+          </Button>
         </div>
 
         {/* Info Card */}
-        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+        <Alert variant="info" className="mt-6">
           <div className="flex gap-3">
             <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 flex-shrink-0">
               info
             </span>
-            <div>
-              <p className="text-sm text-blue-900 dark:text-blue-200">
-                <strong>Prochaines étapes :</strong> Votre itinéraire est
-                maintenant visible par tous les utilisateurs. Vous recevrez des
-                notifications lorsque des utilisateurs manifesteront leur
-                intérêt.
-              </p>
-            </div>
+            <AlertDescription>
+              <strong>Prochaines étapes :</strong> Votre itinéraire est
+              maintenant visible par tous les utilisateurs. Vous recevrez des
+              notifications lorsque des utilisateurs manifesteront leur intérêt.
+            </AlertDescription>
           </div>
-        </div>
+        </Alert>
       </div>
     </div>
   )

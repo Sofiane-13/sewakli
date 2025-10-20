@@ -3,6 +3,17 @@
 
 @import 'tailwindcss';
 
+/* Tailwind v4 custom colors */
+@theme {
+  --color-primary: #0f66bd;
+  --color-background-light: #c5c5c5;
+  --color-background-dark: #101922;
+
+  /* Additional blue shades for dark mode */
+  --color-blue-400: #60a5fa;
+  --color-blue-700: #1d4ed8;
+}
+
 @layer base {
   body {
     margin: 0;
@@ -13,6 +24,10 @@
 
 @layer utilities {
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
   }
 }
