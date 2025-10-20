@@ -50,7 +50,8 @@
       "Bash(curl -X POST http://localhost:3000/graphql -H \"Content-Type: application/json\" -d \"{\"\"query\"\":\"\"{ __schema { mutationType { fields { name } } } }\"\"}\")",
       "Bash(curl -X POST http://localhost:3000/graphql -H \"Content-Type: application/json\" -d \"{\"\"query\"\":\"\"mutation { sendEmailCode(email: \\\"\"test@test.com\\\"\") }\"\"}\")",
       "Bash(curl -X POST http://localhost:3000/graphql -H \"Content-Type: application/json\" -d \"{\"\"query\"\":\"\"mutation { sendEmailCode(email: \"\"\"test@test.com\"\"\") }\"\"}\")",
-      "Bash(powershell \"Stop-Process -Id 24732 -Force\")"
+      "Bash(powershell \"Stop-Process -Id 24732 -Force\")",
+      "Bash(tree -L 3 \"c:\\Users\\sofia\\sakherli\\packages\\apps\\frontend\\app\\src\" -I node_modules)"
     ],
     "deny": [],
     "ask": []

@@ -5,6 +5,7 @@ import { RouteCreationData } from '../types/route'
 import { useCreateRoute } from '../hooks/useCreateRoute'
 import { useTranslation } from '../hooks/useTranslation'
 import { Alert, AlertTitle, AlertDescription } from './ui/Alert'
+import { ROUTES, TEMP_IDS, ASSETS } from '../constants/app'
 
 export default function RouteCreation() {
   const navigate = useNavigate()
@@ -17,12 +18,12 @@ export default function RouteCreation() {
     try {
       // TODO: Récupérer le transporterId depuis le contexte d'authentification
       // Pour l'instant, on utilise un ID temporaire
-      const transporterId = 'temp-transporter-id'
+      const transporterId = TEMP_IDS.transporter
 
       const createdRoute = await createRoute(data, transporterId)
 
       // Après publication réussie, rediriger vers la page de confirmation
-      navigate('/route-created', { state: { route: createdRoute } })
+      navigate(ROUTES.routeCreated, { state: { route: createdRoute } })
     } catch (err) {
       console.error('Error creating route:', err)
       // L'erreur est déjà gérée dans le hook
@@ -55,7 +56,7 @@ export default function RouteCreation() {
       <main
         className="flex-grow px-3 py-4 sm:px-4 sm:py-6 relative"
         style={{
-          backgroundImage: 'url(/formitin.png)',
+          backgroundImage: `url(${ASSETS.backgrounds.form})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'

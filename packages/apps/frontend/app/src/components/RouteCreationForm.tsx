@@ -7,6 +7,7 @@ import { useIntermediateStops } from '../hooks/useIntermediateStops'
 import { useTranslation } from '../hooks/useTranslation'
 import { LOCATION_ICONS } from '../constants/icons'
 import { Button } from './ui/Button'
+import { validateEmail } from '../lib/validation'
 
 interface RouteCreationFormProps {
   onPublish: (
@@ -67,9 +68,10 @@ export default function RouteCreationForm({
 
   const handlePublish = () => {
     // Validation de l'email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!email || !emailRegex.test(email)) {
-      // TODO: Afficher une erreur
+    const emailValidation = validateEmail(email)
+    if (!emailValidation.isValid) {
+      // TODO: Afficher une erreur avec emailValidation.error
+      console.error(emailValidation.error)
       return
     }
 

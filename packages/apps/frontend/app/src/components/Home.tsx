@@ -3,6 +3,7 @@ import Header from './Header'
 import Footer from './Footer'
 import RouteSearchForm from './RouteSearchForm'
 import { RouteSearchData } from '../types/route'
+import { ROUTES, ASSETS } from '../constants/app'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -20,11 +21,11 @@ export default function Home() {
     if (data.arrivalDate) params.append('arrivalDate', data.arrivalDate)
 
     // Naviguer vers la page de résultats avec les query params
-    navigate(`/search-results?${params.toString()}`)
+    navigate(`${ROUTES.searchResults}?${params.toString()}`)
   }
 
   const handleProposeRoute = () => {
-    navigate('/create-route')
+    navigate(ROUTES.createRoute)
   }
 
   return (
@@ -37,7 +38,7 @@ export default function Home() {
           <div
             className="absolute inset-0 bg-black/40 bg-cover bg-center"
             style={{
-              backgroundImage: 'url("/algeria.png")',
+              backgroundImage: `url("${ASSETS.backgrounds.home}")`,
             }}
           />
 

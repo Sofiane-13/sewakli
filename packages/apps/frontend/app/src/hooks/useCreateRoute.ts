@@ -1,48 +1,37 @@
-import { useState } from 'react'
 import { RouteCreationData } from '../types/route'
 import { useRouteRepository } from './useRouteRepository'
 import { RouteResponse } from '../domain/ports/IRouteRepository'
+import { useAsync, UseAsyncReturn } from './useAsync'
+import { useCallback } from 'react'
 
-interface UseCreateRouteReturn {
-  createRoute: (
-    data: RouteCreationData & { description: string; price: string },
-    transporterId: string,
-  ) => Promise<RouteResponse>
-  loading: boolean
-  error: Error | null
-  data: RouteResponse | null
+type CreateRouteData = RouteCreationData & {
+  description: string
+  price: string
 }
 
+interface UseCreateRouteReturn
+  extends Omit<UseAsyncReturn<RouteResponse, [CreateRouteData, string]>, 'execute'> {
+  createRoute: (data: CreateRouteData, transporterId: string) => Promise<RouteResponse>
+}
+
+/**
+ * Hook for creating a new route
+ * @returns Object with createRoute function and async state (loading, error, data)
+ */
 export const useCreateRoute = (): UseCreateRouteReturn => {
   const repository = useRouteRepository()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
-  const [data, setData] = useState<RouteResponse | null>(null)
 
-  const createRoute = async (
-    routeData: RouteCreationData & { description: string; price: string },
-    transporterId: string,
-  ) => {
-    setLoading(true)
-    setError(null)
+  const asyncCreateRoute = useCallback(
+    (routeData: CreateRouteData, transporterId: string) => {
+      return repository.createRoute(routeData, transporterId)
+    },
+    [repository],
+  )
 
-    try {
-      const result = await repository.createRoute(routeData, transporterId)
-      setData(result)
-      return result
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error('Unknown error')
-      setError(error)
-      throw error
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { execute, ...state } = useAsync(asyncCreateRoute)
 
   return {
-    createRoute,
-    loading,
-    error,
-    data,
+    createRoute: execute,
+    ...state,
   }
 }

@@ -1,50 +1,42 @@
-import { useState } from 'react'
+import { useCallback } from 'react'
 import { useAuthService } from './useAuthService'
+import { useAsyncSafe } from './useAsync'
 
+/**
+ * Hook for email verification flow (send code + verify code)
+ * @returns Object with sendCode and verifyCode functions, plus loading states
+ */
 export function useEmailVerification() {
   const authService = useAuthService()
-  const [error, setError] = useState<Error | null>(null)
-  const [sendingCode, setSendingCode] = useState(false)
-  const [verifyingCode, setVerifyingCode] = useState(false)
 
-  const sendCode = async (email: string): Promise<boolean> => {
-    setError(null)
-    setSendingCode(true)
-    try {
-      const result = await authService.sendEmailCode(email)
-      return result
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error('Error sending code')
-      setError(error)
-      console.error('Error sending code:', err)
-      return false
-    } finally {
-      setSendingCode(false)
-    }
-  }
+  // Create async handlers using the generic hook
+  const sendCodeAsync = useCallback(
+    (email: string) => authService.sendEmailCode(email),
+    [authService],
+  )
 
-  const verifyCode = async (email: string, code: string): Promise<boolean> => {
-    setError(null)
-    setVerifyingCode(true)
-    try {
-      const result = await authService.verifyEmailCode(email, code)
-      return result
-    } catch (err) {
-      const error =
-        err instanceof Error ? err : new Error('Error verifying code')
-      setError(error)
-      console.error('Error verifying code:', err)
-      return false
-    } finally {
-      setVerifyingCode(false)
-    }
-  }
+  const verifyCodeAsync = useCallback(
+    (email: string, code: string) => authService.verifyEmailCode(email, code),
+    [authService],
+  )
+
+  const {
+    execute: sendCode,
+    loading: sendingCode,
+    error: sendError,
+  } = useAsyncSafe(sendCodeAsync)
+
+  const {
+    execute: verifyCode,
+    loading: verifyingCode,
+    error: verifyError,
+  } = useAsyncSafe(verifyCodeAsync)
 
   return {
     sendCode,
     verifyCode,
     sendingCode,
     verifyingCode,
-    error,
+    error: sendError || verifyError,
   }
 }
