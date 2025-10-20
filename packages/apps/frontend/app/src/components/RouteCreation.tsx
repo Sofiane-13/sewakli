@@ -16,10 +16,10 @@ export default function RouteCreation() {
       // Pour l'instant, on utilise un ID temporaire
       const transporterId = 'temp-transporter-id'
 
-      await createRoute(data, transporterId)
+      const createdRoute = await createRoute(data, transporterId)
 
-      // Après publication réussie, rediriger vers la home
-      navigate('/')
+      // Après publication réussie, rediriger vers la page de confirmation
+      navigate('/route-created', { state: { route: createdRoute } })
     } catch (err) {
       console.error('Error creating route:', err)
       // L'erreur est déjà gérée dans le hook

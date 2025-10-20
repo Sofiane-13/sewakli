@@ -23,7 +23,8 @@
       "Bash(npm test -- RouteInMemory.spec.ts)",
       "Bash(npm test -- --testPathPattern=RouteInMemory)",
       "Bash(npm test -- --testPathPattern=RouteInMemory --testNamePattern=\"superset\")",
-      "Bash(npx prettier --write src/routes/adapters/driven/RouteInMemory.ts)"
+      "Bash(npx prettier --write src/routes/adapters/driven/RouteInMemory.ts)",
+      "Bash(npx prettier --write src/components/RouteCreationSuccess.tsx src/components/RouteCreation.tsx src/App.tsx)"
     ],
     "deny": [],
     "ask": []
