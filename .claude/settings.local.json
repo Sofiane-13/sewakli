@@ -68,7 +68,8 @@
       "Bash(npx prettier --write src/components/Home.tsx src/components/SearchResults.tsx src/components/RouteCreation.tsx src/locales/translations.ts)",
       "Bash(npx prettier --write src/components/Home.tsx src/components/SearchResults.tsx)",
       "Bash(tree \"c:\\Users\\sofia\\sakherli\\packages\\apps\\frontend\\app\\src\" -I \"node_modules\")",
-      "Bash(tree src/domain src/application src/infrastructure -L 2 -I \"node_modules\")"
+      "Bash(tree src/domain src/application src/infrastructure -L 2 -I \"node_modules\")",
+      "Bash(tree \"c:\\Users\\sofia\\sakherli\\packages\\apps\\api\\src\" -L 5 -I \"node_modules\")"
     ],
     "deny": [],
     "ask": []
