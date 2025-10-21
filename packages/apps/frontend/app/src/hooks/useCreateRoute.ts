@@ -10,8 +10,14 @@ type CreateRouteData = RouteCreationData & {
 }
 
 interface UseCreateRouteReturn
-  extends Omit<UseAsyncReturn<RouteResponse, [CreateRouteData, string]>, 'execute'> {
-  createRoute: (data: CreateRouteData, transporterId: string) => Promise<RouteResponse>
+  extends Omit<
+    UseAsyncReturn<RouteResponse, [CreateRouteData, string]>,
+    'execute'
+  > {
+  createRoute: (
+    data: CreateRouteData,
+    transporterId: string,
+  ) => Promise<RouteResponse>
 }
 
 /**

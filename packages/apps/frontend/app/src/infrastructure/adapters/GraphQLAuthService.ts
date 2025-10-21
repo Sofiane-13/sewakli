@@ -1,4 +1,3 @@
-import type { ApolloClient } from '@apollo/client'
 import { gql } from '@apollo/client'
 
 const SEND_EMAIL_CODE = gql`
@@ -14,7 +13,7 @@ const VERIFY_EMAIL_CODE = gql`
 `
 
 export class GraphQLAuthService {
-  constructor(private apolloClient: ApolloClient<any>) {}
+  constructor(private apolloClient: any) {}
 
   async sendEmailCode(email: string): Promise<boolean> {
     const result = await this.apolloClient.mutate({

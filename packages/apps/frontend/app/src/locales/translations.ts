@@ -28,7 +28,8 @@ export const translations = {
     selectCountry: 'Sélectionnez un pays',
     selectCity: 'Sélectionnez une ville',
     enterCity: 'Entrez une ville',
-    descriptionPlaceholder: 'Décrivez votre itinéraire, les conditions de transport, etc.',
+    descriptionPlaceholder:
+      'Décrivez votre itinéraire, les conditions de transport, etc.',
     pricePlaceholder: 'ex: 5.50',
     emailPlaceholder: 'exemple@email.com',
 
@@ -40,7 +41,7 @@ export const translations = {
     verifyButton: 'Vérifier',
     verifying: 'Vérification...',
     resendCode: 'Renvoyer le code',
-    changeEmail: 'Changer l\'email',
+    changeEmail: "Changer l'email",
     emailVerificationInfo: 'Vous recevrez un code de vérification par email',
 
     // Success Messages
@@ -49,17 +50,19 @@ export const translations = {
     viewMyRoutes: 'Voir mes itinéraires',
     createAnother: 'Créer un autre',
     routeCreatedSuccessTitle: 'Itinéraire créé avec succès !',
-    routeNowAvailable: 'Votre itinéraire a été publié et est maintenant disponible pour les utilisateurs',
-    routeDetails: 'Détails de l\'itinéraire',
+    routeNowAvailable:
+      'Votre itinéraire a été publié et est maintenant disponible pour les utilisateurs',
+    routeDetails: "Détails de l'itinéraire",
     identifier: 'Identifiant',
     intermediateStopsLabel: 'Arrêts intermédiaires',
     additionalInfo: 'Informations supplémentaires',
     status: 'Statut',
     published: 'Publié',
-    backToHome: 'Retour à l\'accueil',
+    backToHome: "Retour à l'accueil",
     createAnotherRoute: 'Créer un autre itinéraire',
     nextSteps: 'Prochaines étapes',
-    nextStepsInfo: 'Votre itinéraire est maintenant visible par tous les utilisateurs. Vous recevrez des notifications lorsque des utilisateurs manifesteront leur intérêt.',
+    nextStepsInfo:
+      'Votre itinéraire est maintenant visible par tous les utilisateurs. Vous recevrez des notifications lorsque des utilisateurs manifesteront leur intérêt.',
 
     // Error Messages
     errorCreatingRoute: 'Erreur lors de la création',
@@ -70,6 +73,41 @@ export const translations = {
     searchResults: 'Résultats de recherche',
     noResults: 'Aucun résultat trouvé',
     loadingResults: 'Chargement des résultats...',
+    searchInProgress: 'Recherche en cours...',
+    noRouteFound: 'Aucun itinéraire trouvé',
+    tryModifySearch: 'Essayez de modifier vos critères de recherche',
+    newSearch: 'Nouvelle recherche',
+    contact: 'Contacter',
+    estimatedPrice: 'Prix estimé',
+    foundRoutes: 'itinéraire(s) trouvé(s)',
+
+    // Home Page
+    platformNumber1: 'Plateforme N°1 en France',
+    findYourIdealTransporter: 'Trouvez votre',
+    idealTransporter: 'Transporteur Idéal',
+    connectWithProfessionals:
+      'Connectez-vous avec des transporteurs professionnels pour tous vos besoins de livraison',
+    whyChooseUs: 'Pourquoi choisir Translink Express ?',
+    trustedPlatform:
+      'Une plateforme de confiance pour connecter transporteurs et clients',
+    verifiedTransporters: 'Transporteurs Vérifiés',
+    verifiedTransportersDesc:
+      'Tous nos transporteurs sont vérifiés et certifiés',
+    fastDelivery: 'Livraison Rapide',
+    fastDeliveryDesc: 'Des délais de livraison garantis et respectés',
+    securePayment: 'Paiement Sécurisé',
+    securePaymentDesc: 'Vos transactions sont 100% sécurisées',
+    support24_7: 'Support 24/7',
+    support24_7Desc: 'Une équipe dédiée à votre service',
+    free: 'Gratuit',
+    twoMinutes: '2 min',
+
+    // Route Creation Page
+    shareYourRoute:
+      'Partagez votre itinéraire et connectez-vous avec des clients',
+    routeDetails: "Détails de l'itinéraire",
+    fillRouteInfo:
+      'Renseignez les informations de votre trajet pour permettre aux clients de vous trouver',
 
     // Buttons
     remove: 'Retirer',
@@ -128,7 +166,8 @@ export const translations = {
     viewMyRoutes: 'View my routes',
     createAnother: 'Create another',
     routeCreatedSuccessTitle: 'Route created successfully!',
-    routeNowAvailable: 'Your route has been published and is now available to users',
+    routeNowAvailable:
+      'Your route has been published and is now available to users',
     routeDetails: 'Route details',
     identifier: 'Identifier',
     intermediateStopsLabel: 'Intermediate stops',
@@ -138,7 +177,8 @@ export const translations = {
     backToHome: 'Back to home',
     createAnotherRoute: 'Create another route',
     nextSteps: 'Next steps',
-    nextStepsInfo: 'Your route is now visible to all users. You will receive notifications when users show interest.',
+    nextStepsInfo:
+      'Your route is now visible to all users. You will receive notifications when users show interest.',
 
     // Error Messages
     errorCreatingRoute: 'Error creating route',
@@ -149,6 +189,37 @@ export const translations = {
     searchResults: 'Search results',
     noResults: 'No results found',
     loadingResults: 'Loading results...',
+    searchInProgress: 'Search in progress...',
+    noRouteFound: 'No route found',
+    tryModifySearch: 'Try modifying your search criteria',
+    newSearch: 'New search',
+    contact: 'Contact',
+    estimatedPrice: 'Estimated price',
+    foundRoutes: 'route(s) found',
+
+    // Home Page
+    platformNumber1: 'Platform #1 in France',
+    findYourIdealTransporter: 'Find your',
+    idealTransporter: 'Ideal Transporter',
+    connectWithProfessionals:
+      'Connect with professional transporters for all your delivery needs',
+    whyChooseUs: 'Why choose Translink Express?',
+    trustedPlatform: 'A trusted platform to connect transporters and clients',
+    verifiedTransporters: 'Verified Transporters',
+    verifiedTransportersDesc: 'All our transporters are verified and certified',
+    fastDelivery: 'Fast Delivery',
+    fastDeliveryDesc: 'Guaranteed and respected delivery times',
+    securePayment: 'Secure Payment',
+    securePaymentDesc: 'Your transactions are 100% secure',
+    support24_7: '24/7 Support',
+    support24_7Desc: 'A dedicated team at your service',
+    free: 'Free',
+    twoMinutes: '2 min',
+
+    // Route Creation Page
+    shareYourRoute: 'Share your route and connect with clients',
+    routeDetails: 'Route details',
+    fillRouteInfo: 'Fill in your trip information to allow clients to find you',
 
     // Buttons
     remove: 'Remove',
@@ -217,7 +288,8 @@ export const translations = {
     backToHome: 'العودة للرئيسية',
     createAnotherRoute: 'إنشاء مسار آخر',
     nextSteps: 'الخطوات التالية',
-    nextStepsInfo: 'مسارك الآن مرئي لجميع المستخدمين. ستتلقى إشعارات عندما يُظهر المستخدمون اهتمامًا.',
+    nextStepsInfo:
+      'مسارك الآن مرئي لجميع المستخدمين. ستتلقى إشعارات عندما يُظهر المستخدمون اهتمامًا.',
 
     // Error Messages
     errorCreatingRoute: 'خطأ في الإنشاء',
@@ -228,6 +300,37 @@ export const translations = {
     searchResults: 'نتائج البحث',
     noResults: 'لا توجد نتائج',
     loadingResults: 'تحميل النتائج...',
+    searchInProgress: 'البحث جاري...',
+    noRouteFound: 'لم يتم العثور على مسار',
+    tryModifySearch: 'حاول تعديل معايير البحث',
+    newSearch: 'بحث جديد',
+    contact: 'اتصل',
+    estimatedPrice: 'السعر المقدر',
+    foundRoutes: 'مسار (مسارات) تم العثور عليها',
+
+    // Home Page
+    platformNumber1: 'المنصة رقم 1 في فرنسا',
+    findYourIdealTransporter: 'ابحث عن',
+    idealTransporter: 'الناقل المثالي',
+    connectWithProfessionals:
+      'تواصل مع ناقلين محترفين لجميع احتياجات التوصيل الخاصة بك',
+    whyChooseUs: 'لماذا تختار Translink Express؟',
+    trustedPlatform: 'منصة موثوقة لربط الناقلين بالعملاء',
+    verifiedTransporters: 'ناقلون موثقون',
+    verifiedTransportersDesc: 'جميع ناقلينا موثقون ومعتمدون',
+    fastDelivery: 'توصيل سريع',
+    fastDeliveryDesc: 'مواعيد تسليم مضمونة ومحترمة',
+    securePayment: 'دفع آمن',
+    securePaymentDesc: 'معاملاتك آمنة بنسبة 100%',
+    support24_7: 'دعم 24/7',
+    support24_7Desc: 'فريق مخصص في خدمتك',
+    free: 'مجاني',
+    twoMinutes: 'دقيقتان',
+
+    // Route Creation Page
+    shareYourRoute: 'شارك مسارك وتواصل مع العملاء',
+    routeDetails: 'تفاصيل المسار',
+    fillRouteInfo: 'املأ معلومات رحلتك للسماح للعملاء بالعثور عليك',
 
     // Buttons
     remove: 'إزالة',

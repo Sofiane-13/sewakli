@@ -5,6 +5,9 @@ import { useLocation } from '../hooks/useLocation'
 import { useTranslation } from '../hooks/useTranslation'
 import { LOCATION_ICONS } from '../constants/icons'
 import { Button } from './ui/Button'
+import { Card } from './ui/Card'
+import { Icon } from './ui/Icon'
+import { Divider } from './ui/Divider'
 
 interface RouteSearchFormProps {
   onSearch: (data: RouteSearchData) => void
@@ -17,11 +20,9 @@ export default function RouteSearchForm({
 }: RouteSearchFormProps) {
   const { t } = useTranslation()
 
-  // Departure location
   const departure = useLocation()
   const [departureDate, setDepartureDate] = useState('')
 
-  // Arrival location
   const arrival = useLocation()
   const [arrivalDate, setArrivalDate] = useState('')
 
@@ -37,7 +38,24 @@ export default function RouteSearchForm({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl shadow-lg space-y-2.5 sm:space-y-3">
+    <Card variant="glass" className="space-y-4 sm:space-y-6">
+      {/* Form Title */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-primary-100 dark:bg-primary-950">
+          <Icon name="search" size="lg" className="text-primary-600" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-50">
+            Rechercher un transporteur
+          </h3>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400">
+            Trouvez le transporteur idéal pour votre trajet
+          </p>
+        </div>
+      </div>
+
+      <Divider />
+
       {/* Departure */}
       <CityDateField
         label={t('departure')}
@@ -49,6 +67,30 @@ export default function RouteSearchForm({
         onDateChange={setDepartureDate}
         cityIcon={LOCATION_ICONS.departure}
       />
+
+      {/* Swap Button */}
+      <div className="flex justify-center -my-2">
+        <button
+          className="p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 hover:bg-primary-100 dark:hover:bg-primary-950 text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all hover:scale-110"
+          onClick={() => {
+            const tempCountry = departure.country
+            const tempCity = departure.city
+            const tempDate = departureDate
+
+            departure.handleCountryChange(arrival.country)
+            departure.handleCityChange(arrival.city)
+            setDepartureDate(arrivalDate)
+
+            arrival.handleCountryChange(tempCountry)
+            arrival.handleCityChange(tempCity)
+            setArrivalDate(tempDate)
+          }}
+          type="button"
+          aria-label="Inverser départ et arrivée"
+        >
+          <Icon name="swap_vert" size="lg" />
+        </button>
+      </div>
 
       {/* Arrival */}
       <CityDateField
@@ -62,25 +104,32 @@ export default function RouteSearchForm({
         cityIcon={LOCATION_ICONS.arrival}
       />
 
-      {/* Search Button */}
-      <Button
-        variant="primary"
-        className="w-full"
-        onClick={handleSearch}
-        type="button"
-      >
-        {t('searchTransporter')}
-      </Button>
+      <Divider />
 
-      {/* Propose Route Button */}
-      <Button
-        variant="outline"
-        className="w-full"
-        onClick={onProposeRoute}
-        type="button"
-      >
-        {t('proposeRoute')}
-      </Button>
-    </div>
+      {/* Action Buttons */}
+      <div className="space-y-3">
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full"
+          onClick={handleSearch}
+          type="button"
+          leftIcon={<Icon name="search" size="md" />}
+        >
+          {t('searchTransporter')}
+        </Button>
+
+        <Button
+          variant="outline"
+          size="default"
+          className="w-full"
+          onClick={onProposeRoute}
+          type="button"
+          leftIcon={<Icon name="add_circle" size="md" />}
+        >
+          {t('proposeRoute')}
+        </Button>
+      </div>
+    </Card>
   )
 }

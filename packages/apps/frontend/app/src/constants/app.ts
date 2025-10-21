@@ -34,7 +34,8 @@ export const ROUTES = {
  * API endpoints and configuration
  */
 export const API = {
-  graphqlUrl: import.meta.env.VITE_GRAPHQL_API_URL || 'http://localhost:3000/graphql',
+  graphqlUrl:
+    import.meta.env.VITE_GRAPHQL_API_URL || 'http://localhost:3000/graphql',
 } as const
 
 /**
@@ -82,4 +83,4 @@ export const ROUTE_STATUS = {
   completed: 'COMPLETED',
 } as const
 
-export type RouteStatus = typeof ROUTE_STATUS[keyof typeof ROUTE_STATUS]
+export type RouteStatus = (typeof ROUTE_STATUS)[keyof typeof ROUTE_STATUS]

@@ -1,11 +1,16 @@
 import { useNavigate } from 'react-router-dom'
+import Header from './Header'
 import Footer from './Footer'
 import RouteCreationForm from './RouteCreationForm'
 import { RouteCreationData } from '../types/route'
 import { useCreateRoute } from '../hooks/useCreateRoute'
 import { useTranslation } from '../hooks/useTranslation'
 import { Alert, AlertTitle, AlertDescription } from './ui/Alert'
-import { ROUTES, TEMP_IDS, ASSETS } from '../constants/app'
+import { ROUTES, TEMP_IDS } from '../constants/app'
+import { Container } from './ui/Container'
+import { Card, CardHeader, CardTitle, CardDescription } from './ui/Card'
+import { Icon } from './ui/Icon'
+import { Badge } from './ui/Badge'
 
 export default function RouteCreation() {
   const navigate = useNavigate()
@@ -16,64 +21,100 @@ export default function RouteCreation() {
     data: RouteCreationData & { description: string; price: string },
   ) => {
     try {
-      // TODO: Récupérer le transporterId depuis le contexte d'authentification
-      // Pour l'instant, on utilise un ID temporaire
       const transporterId = TEMP_IDS.transporter
-
       const createdRoute = await createRoute(data, transporterId)
-
-      // Après publication réussie, rediriger vers la page de confirmation
       navigate(ROUTES.routeCreated, { state: { route: createdRoute } })
     } catch (err) {
       console.error('Error creating route:', err)
-      // L'erreur est déjà gérée dans le hook
     }
   }
 
   const handleBack = () => {
-    navigate(-1) // Retour à la page précédente
+    navigate(-1)
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark font-display">
-      {/* Header with back button */}
-      <header className="relative z-20 bg-white/90 dark:bg-gray-800/90 px-3 py-3 sm:px-4 sm:py-4 flex items-center border-b border-gray-200 dark:border-gray-700 sticky top-0 shadow-sm backdrop-blur-md">
-        <button
-          onClick={handleBack}
-          className="text-gray-800 dark:text-white hover:text-primary transition-colors flex-shrink-0"
-          aria-label={t('back')}
-        >
-          <span className="material-symbols-outlined text-xl sm:text-2xl">
-            arrow_back
-          </span>
-        </button>
-        <h1 className="flex-1 text-center text-base sm:text-xl font-bold text-gray-900 dark:text-white pr-6 sm:pr-8 truncate">
-          {t('publishRoute')}
-        </h1>
-      </header>
+    <div className="flex flex-col min-h-screen pt-16 sm:pt-20 pb-[60px] sm:pb-[68px]">
+      <Header />
+
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-primary-600 via-primary-500 to-primary-700 text-white py-8 sm:py-12">
+        <Container size="lg" centered>
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-2 text-white/90 hover:text-white mb-4 sm:mb-6 transition-colors group"
+            aria-label={t('back')}
+          >
+            <Icon
+              name="arrow_back"
+              size="md"
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span className="text-sm font-medium">{t('back')}</span>
+          </button>
+
+          <div className="flex items-start gap-4">
+            <div className="flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-white/20 backdrop-blur-sm flex-shrink-0">
+              <Icon name="add_road" size="xl" filled />
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-4xl font-bold mb-2">
+                {t('publishRoute')}
+              </h1>
+              <p className="text-white/90 text-sm sm:text-base">
+                {t('shareYourRoute')}
+              </p>
+              <div className="flex gap-2 mt-3">
+                <Badge
+                  variant="success"
+                  className="bg-white/20 text-white border-white/30"
+                  icon={<Icon name="verified" size="sm" filled />}
+                >
+                  {t('free')}
+                </Badge>
+                <Badge
+                  variant="neutral"
+                  className="bg-white/20 text-white border-white/30"
+                  icon={<Icon name="schedule" size="sm" />}
+                >
+                  {t('twoMinutes')}
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </div>
 
       {/* Main Content */}
-      <main
-        className="flex-grow px-3 py-4 sm:px-4 sm:py-6 relative"
-        style={{
-          backgroundImage: `url(${ASSETS.backgrounds.form})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        {/* Overlay pour améliorer la lisibilité */}
-        <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm" />
-
-        <div className="max-w-lg mx-auto w-full relative z-10">
+      <main className="flex-grow py-6 sm:py-12 bg-neutral-100 dark:bg-neutral-950">
+        <Container size="md" centered>
           {error && (
-            <Alert variant="error" className="mb-4">
+            <Alert variant="error" className="mb-6">
               <AlertTitle>{t('errorCreatingRoute')}</AlertTitle>
               <AlertDescription>{error.message}</AlertDescription>
             </Alert>
           )}
-          <RouteCreationForm onPublish={handlePublishRoute} loading={loading} />
-        </div>
+
+          <Card variant="elevated">
+            <CardHeader
+              icon={
+                <Icon
+                  name="edit_location"
+                  size="lg"
+                  className="text-primary-600"
+                />
+              }
+            >
+              <CardTitle>{t('routeDetails')}</CardTitle>
+              <CardDescription>{t('fillRouteInfo')}</CardDescription>
+            </CardHeader>
+
+            <RouteCreationForm
+              onPublish={handlePublishRoute}
+              loading={loading}
+            />
+          </Card>
+        </Container>
       </main>
 
       <Footer />

@@ -13,7 +13,6 @@ interface EmailVerificationProps {
 
 export default function EmailVerification({
   onVerified,
-  loading = false,
   initialEmail = '',
 }: EmailVerificationProps) {
   const { t } = useTranslation()

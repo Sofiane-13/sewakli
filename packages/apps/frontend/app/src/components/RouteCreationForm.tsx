@@ -80,7 +80,7 @@ export default function RouteCreationForm({
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6">
       {/* Departure */}
       <CityDateField
         label={t('departure')}
@@ -106,11 +106,12 @@ export default function RouteCreationForm({
       />
 
       {/* Intermediate Stops Section */}
-      <div>
-        <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+      <div className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800">
+        <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-neutral-50 mb-4 flex items-center gap-2">
+          <span className="material-symbols-outlined">pin_drop</span>
           {t('intermediateStops')}
         </h2>
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-4">
           {stops.map((stop) => (
             <CityDateField
               key={stop.id}
@@ -131,12 +132,15 @@ export default function RouteCreationForm({
           onClick={addStop}
           type="button"
           variant="ghost"
-          className="mt-3 sm:mt-4"
+          size="sm"
+          className="mt-4"
+          leftIcon={
+            <span className="material-symbols-outlined text-lg">
+              add_circle
+            </span>
+          }
         >
-          <span className="material-symbols-outlined text-xl sm:text-2xl">
-            add_circle
-          </span>
-          <span>{t('addStop')}</span>
+          {t('addStop')}
         </Button>
       </div>
 
@@ -144,14 +148,14 @@ export default function RouteCreationForm({
       <div>
         <label
           htmlFor="description"
-          className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
         >
           {t('description')}
         </label>
         <textarea
           id="description"
           rows={4}
-          className="w-full bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+          className="w-full bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 placeholder-neutral-400 dark:placeholder-neutral-600 border border-neutral-300 dark:border-neutral-700 rounded-xl p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all resize-none"
           placeholder={t('descriptionPlaceholder')}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -162,55 +166,67 @@ export default function RouteCreationForm({
       <div>
         <label
           htmlFor="price"
-          className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
         >
           {t('price')}
         </label>
-        <input
-          id="price"
-          type="number"
-          className="w-full bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 sm:p-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-          placeholder={t('pricePlaceholder')}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
+        <div className="relative">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 dark:text-neutral-400 font-semibold">
+            €
+          </span>
+          <input
+            id="price"
+            type="number"
+            className="w-full h-12 pl-10 pr-4 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 placeholder-neutral-400 dark:placeholder-neutral-600 border border-neutral-300 dark:border-neutral-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
+            placeholder={t('pricePlaceholder')}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* Email Field */}
       <div>
         <label
           htmlFor="email"
-          className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
         >
           {t('email')}
         </label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500">
             mail
           </span>
           <input
             id="email"
             type="email"
-            className="w-full h-12 pl-10 pr-4 py-3 bg-white/50 dark:bg-black/20 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+            className="w-full h-12 pl-12 pr-4 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 placeholder-neutral-400 dark:placeholder-neutral-600 border border-neutral-300 dark:border-neutral-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
             placeholder={t('emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-          {t('emailVerificationInfo')}
+        <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2 flex items-start gap-1">
+          <span className="material-symbols-outlined text-sm">info</span>
+          <span>{t('emailVerificationInfo')}</span>
         </p>
       </div>
 
       {/* Publish Button */}
-      <div className="pt-3 sm:pt-4">
+      <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
         <Button
           onClick={handlePublish}
           type="button"
           variant="primary"
+          size="lg"
           className="w-full"
           isLoading={loading}
           disabled={loading}
+          leftIcon={
+            !loading ? (
+              <span className="material-symbols-outlined">publish</span>
+            ) : undefined
+          }
         >
           {loading ? t('publishing') : t('publishButton')}
         </Button>

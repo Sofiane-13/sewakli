@@ -1,6 +1,9 @@
 import { NAVIGATION_ICONS } from '../constants/icons'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTranslation } from '../hooks/useTranslation'
+import { Icon } from './ui/Icon'
+import { Container } from './ui/Container'
+import { Divider } from './ui/Divider'
 
 interface NavItem {
   icon: string
@@ -23,41 +26,44 @@ const navItems: NavItem[] = [
 export default function Footer() {
   const { t } = useTranslation()
   return (
-    <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 z-10">
-      <div className="max-w-screen-xl mx-auto">
-        <nav className="flex justify-around items-center px-2 py-2 sm:py-3">
-          {navItems.map((item) => (
-            <a
-              key={item.labelKey}
-              className={`flex flex-col items-center gap-0.5 sm:gap-1 min-w-0 px-1 ${
-                item.isActive
-                  ? 'text-primary'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary'
-              } transition-colors`}
-              href={item.href}
-            >
-              <span
-                className="material-symbols-outlined text-xl sm:text-2xl"
-                style={
-                  item.isFilled
-                    ? { fontVariationSettings: "'FILL' 1" }
-                    : undefined
-                }
+    <footer className="fixed bottom-0 left-0 right-0 z-sticky glass glass-border backdrop-blur-xl border-t shadow-md">
+      <Container size="xl" centered>
+        <div className="flex items-center justify-between py-2 sm:py-3">
+          {/* Navigation */}
+          <nav className="flex items-center gap-1">
+            {navItems.map((item) => (
+              <a
+                key={item.labelKey}
+                className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                  item.isActive
+                    ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-950'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                }`}
+                href={item.href}
               >
-                {item.icon}
-              </span>
-              <span className="text-[10px] sm:text-xs font-medium truncate max-w-full">
-                {t(item.labelKey as any)}
-              </span>
-            </a>
-          ))}
-        </nav>
+                <Icon
+                  name={item.icon}
+                  size="sm"
+                  filled={item.isFilled}
+                  className="transition-transform group-hover:scale-110"
+                />
+                <span className="text-xs font-medium hidden sm:inline">
+                  {t(item.labelKey as any)}
+                </span>
+              </a>
+            ))}
+          </nav>
 
-        {/* Language Switcher */}
-        <div className="flex justify-center pb-2 px-2">
-          <LanguageSwitcher />
+          {/* Right Section */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 hidden md:inline">
+              © 2025 Translink Express
+            </span>
+            <Divider orientation="vertical" className="h-4 hidden sm:block" />
+            <LanguageSwitcher />
+          </div>
         </div>
-      </div>
+      </Container>
     </footer>
   )
 }

@@ -145,9 +145,7 @@ export function validateDate(
  * @param validations - Array of validation results
  * @returns Combined validation result
  */
-export function validateAll(
-  validations: ValidationResult[],
-): ValidationResult {
+export function validateAll(validations: ValidationResult[]): ValidationResult {
   const errors = validations
     .filter((v) => !v.isValid)
     .map((v) => v.error)

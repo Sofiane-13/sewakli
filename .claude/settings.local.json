@@ -57,7 +57,16 @@
       "Bash(git mv inboudPorts inboundPorts)",
       "Bash(timeout 10 pnpm run start:dev)",
       "Bash(exit 0)",
-      "Bash(timeout 10 pnpm run dev)"
+      "Bash(timeout 10 pnpm run dev)",
+      "Bash(tree \"c:\\Users\\sofia\\sakherli\\packages\\apps\\frontend\\app\\src\" -L 3 -I node_modules)",
+      "Bash(npx prettier --write src/components/Footer.tsx)",
+      "Bash(npx prettier --write src/components/RouteCreationForm.tsx)",
+      "Bash(npx prettier --write src/components/Header.tsx src/components/Footer.tsx src/components/Home.tsx src/components/RouteCreation.tsx)",
+      "Bash(npx prettier --write src/components/Home.tsx)",
+      "Bash(npx prettier --write src/components/SearchResults.tsx)",
+      "Bash(npx prettier --write src/components/Home.tsx src/components/RouteCreation.tsx src/components/SearchResults.tsx src/index.css)",
+      "Bash(npx prettier --write src/components/Home.tsx src/components/SearchResults.tsx src/components/RouteCreation.tsx src/locales/translations.ts)",
+      "Bash(npx prettier --write src/components/Home.tsx src/components/SearchResults.tsx)"
     ],
     "deny": [],
     "ask": []

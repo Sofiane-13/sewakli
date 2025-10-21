@@ -1,16 +1,21 @@
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import Header from './Header'
 import Footer from './Footer'
 import { useSearchRoutes } from '../hooks/useSearchRoutes'
 import { RouteResponse } from '../domain/ports/IRouteRepository'
 import { Button } from './ui/Button'
 import { Alert, AlertDescription } from './ui/Alert'
+import { Container } from './ui/Container'
+import { Icon } from './ui/Icon'
+import { Badge } from './ui/Badge'
+import { useTranslation } from '../hooks/useTranslation'
 
 export default function SearchResults() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const { t } = useTranslation()
 
-  // Récupérer les paramètres de recherche depuis l'URL
   const departureCountry = searchParams.get('departureCountry') || ''
   const departureCity = searchParams.get('departureCity') || ''
   const departureDate = searchParams.get('departureDate') || ''
@@ -18,11 +23,9 @@ export default function SearchResults() {
   const arrivalCity = searchParams.get('arrivalCity') || ''
   const arrivalDate = searchParams.get('arrivalDate') || ''
 
-  // Utiliser le hook de recherche GraphQL
   const { searchRoutes, loading, error, data: routes } = useSearchRoutes()
 
   useEffect(() => {
-    // Effectuer la recherche au chargement du composant
     searchRoutes({
       departureCountry,
       departureCity,
@@ -69,71 +72,86 @@ export default function SearchResults() {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col justify-between overflow-x-hidden bg-background-light dark:bg-background-dark font-display">
-      <div className="flex-grow">
-        {/* Header sticky */}
-        <div className="bg-background-light dark:bg-background-dark sticky top-0 z-10">
-          <div className="flex items-center p-3 sm:p-4 pb-2 justify-between">
-            <button
-              onClick={handleBack}
-              className="text-neutral-900 dark:text-neutral-100"
-            >
-              <svg
-                fill="currentColor"
-                height="24px"
-                viewBox="0 0 256 256"
-                width="24px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
-              </svg>
-            </button>
-            <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-neutral-100 flex-1 text-center pr-6 sm:pr-8">
-              Résultats de recherche
-            </h2>
+    <div className="flex flex-col min-h-screen pt-16 sm:pt-20 pb-[60px] sm:pb-[68px]">
+      <Header />
+
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-primary-600 via-primary-500 to-primary-700 text-white py-6 sm:py-8">
+        <Container size="lg" centered>
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-2 text-white/90 hover:text-white mb-4 transition-colors group"
+            aria-label={t('back')}
+          >
+            <Icon
+              name="arrow_back"
+              size="md"
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span className="text-sm font-medium">{t('back')}</span>
+          </button>
+
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm">
+              <Icon name="search" size="lg" filled />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-3xl font-bold">
+                {t('searchResults')}
+              </h1>
+              <p className="text-white/90 text-sm">
+                {routes.length} {t('foundRoutes')}
+              </p>
+            </div>
           </div>
 
-          {/* Filtres de recherche appliqués */}
+          {/* Filtres appliqués */}
           {(departureCity || arrivalCity) && (
-            <div className="px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
-              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 break-words">
-                {departureCity && (
-                  <span className="font-medium">
-                    De: {departureCity}, {departureCountry}
-                  </span>
-                )}
-                {departureCity && arrivalCity && (
-                  <span className="mx-2">•</span>
-                )}
-                {arrivalCity && (
-                  <span className="font-medium">
-                    À: {arrivalCity}, {arrivalCountry}
-                  </span>
-                )}
-              </p>
-              {(departureDate || arrivalDate) && (
-                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 mt-1 break-words">
-                  {departureDate && (
-                    <span>Départ: {formatDate(departureDate)}</span>
-                  )}
-                  {departureDate && arrivalDate && (
-                    <span className="mx-2">•</span>
-                  )}
-                  {arrivalDate && (
-                    <span>Arrivée: {formatDate(arrivalDate)}</span>
-                  )}
-                </p>
+            <div className="flex flex-wrap gap-2">
+              {departureCity && (
+                <Badge
+                  variant="neutral"
+                  className="bg-white/20 text-white border-white/30"
+                  icon={<Icon name="trip_origin" size="sm" />}
+                >
+                  {departureCity}, {departureCountry}
+                </Badge>
+              )}
+              {arrivalCity && (
+                <Badge
+                  variant="neutral"
+                  className="bg-white/20 text-white border-white/30"
+                  icon={<Icon name="location_on" size="sm" />}
+                >
+                  {arrivalCity}, {arrivalCountry}
+                </Badge>
+              )}
+              {departureDate && (
+                <Badge
+                  variant="neutral"
+                  className="bg-white/20 text-white border-white/30"
+                  icon={<Icon name="calendar_today" size="sm" />}
+                >
+                  {formatDate(departureDate)}
+                </Badge>
               )}
             </div>
           )}
-        </div>
+        </Container>
+      </div>
 
-        {/* Contenu principal */}
-        <div className="px-3 sm:px-4 py-3">
+      {/* Contenu principal */}
+      <main className="flex-grow py-6 sm:py-8 bg-neutral-100 dark:bg-neutral-950">
+        <Container size="lg" centered>
           {loading && (
             <div className="flex justify-center items-center py-12">
-              <div className="text-neutral-600 dark:text-neutral-300">
-                Recherche en cours...
+              <div className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300">
+                <Icon
+                  name="progress_activity"
+                  size="lg"
+                  className="animate-spin"
+                />
+                <span>{t('searchInProgress')}</span>
               </div>
             </div>
           )}
@@ -147,54 +165,85 @@ export default function SearchResults() {
           )}
 
           {!loading && !error && routes.length === 0 && (
-            <div className="bg-white dark:bg-neutral-800 rounded-xl p-8 text-center">
-              <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Aucun itinéraire trouvé pour cette recherche
+            <div className="bg-white dark:bg-neutral-900 rounded-2xl p-8 text-center shadow-lg">
+              <div className="flex items-center justify-center h-16 w-16 mx-auto mb-4 rounded-full bg-neutral-100 dark:bg-neutral-800">
+                <Icon
+                  name="search_off"
+                  size="xl"
+                  className="text-neutral-400"
+                />
+              </div>
+              <p className="text-lg font-semibold text-neutral-900 dark:text-neutral-50 mb-2">
+                {t('noRouteFound')}
               </p>
-              <Button onClick={handleBack} variant="primary">
-                Nouvelle recherche
+              <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+                {t('tryModifySearch')}
+              </p>
+              <Button onClick={handleBack} variant="primary" size="lg">
+                <Icon name="search" size="md" />
+                {t('newSearch')}
               </Button>
             </div>
           )}
 
           {!loading && !error && routes.length > 0 && (
-            <div className="space-y-3 sm:space-y-4">
-              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 mb-3 sm:mb-4">
-                {routes.length} itinéraire{routes.length > 1 ? 's' : ''} trouvé
-                {routes.length > 1 ? 's' : ''}
-              </p>
-
+            <div className="space-y-4">
               {routes.map((route) => (
                 <div
                   key={route.id}
-                  className="flex flex-col sm:flex-row gap-3 sm:gap-4 bg-white dark:bg-neutral-800 p-3 sm:p-4 rounded-xl shadow-sm sm:justify-between sm:items-center"
+                  className="bg-white dark:bg-neutral-900 p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow"
                 >
-                  <div className="flex flex-1 flex-col justify-center gap-1">
-                    <p className="text-sm sm:text-base font-bold text-neutral-900 dark:text-neutral-100">
-                      Départ: {formatDate(route.departureDate)}
-                    </p>
-                    <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 break-words">
-                      {formatRouteDescription(route)}
-                    </p>
-                    {route.price && (
-                      <p className="text-xs sm:text-sm font-medium text-primary">
-                        Prix estimé: {route.price}€
-                      </p>
-                    )}
+                  <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          name="calendar_today"
+                          size="sm"
+                          className="text-primary-600"
+                        />
+                        <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-50">
+                          {t('departure')}: {formatDate(route.departureDate)}
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <Icon
+                          name="route"
+                          size="sm"
+                          className="text-neutral-400 mt-0.5"
+                        />
+                        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                          {formatRouteDescription(route)}
+                        </p>
+                      </div>
+                      {route.price && (
+                        <div className="flex items-center gap-2">
+                          <Icon
+                            name="euro"
+                            size="sm"
+                            className="text-success-600"
+                          />
+                          <p className="text-sm font-semibold text-success-600 dark:text-success-400">
+                            {t('estimatedPrice')}: {route.price}€
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      onClick={() => handleContactTransporter(route)}
+                      variant="primary"
+                      size="default"
+                      className="w-full sm:w-auto"
+                      leftIcon={<Icon name="mail" size="sm" />}
+                    >
+                      {t('contact')}
+                    </Button>
                   </div>
-                  <Button
-                    onClick={() => handleContactTransporter(route)}
-                    variant="primary"
-                    className="w-full sm:w-auto sm:min-w-[84px]"
-                  >
-                    Contact
-                  </Button>
                 </div>
               ))}
             </div>
           )}
-        </div>
-      </div>
+        </Container>
+      </main>
 
       <Footer />
     </div>
