@@ -9,10 +9,12 @@ import { Card } from './ui/Card'
 import { Icon } from './ui/Icon'
 import { Badge } from './ui/Badge'
 import { useTranslation } from '../hooks/useTranslation'
+import { useAuth } from '../hooks/useAuth'
 
 export default function Home() {
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const { isAuthenticated } = useAuth()
 
   const handleSearchTransporter = (data: RouteSearchData) => {
     const params = new URLSearchParams()
@@ -30,6 +32,10 @@ export default function Home() {
 
   const handleProposeRoute = () => {
     navigate(ROUTES.createRoute)
+  }
+
+  const handleManageRoutes = () => {
+    navigate(ROUTES.manageRoutes)
   }
 
   const features = [
@@ -104,6 +110,9 @@ export default function Home() {
               <RouteSearchForm
                 onSearch={handleSearchTransporter}
                 onProposeRoute={handleProposeRoute}
+                onManageRoutes={
+                  isAuthenticated ? handleManageRoutes : undefined
+                }
               />
             </div>
           </Container>

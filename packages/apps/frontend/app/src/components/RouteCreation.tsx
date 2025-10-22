@@ -6,7 +6,7 @@ import { RouteCreationData } from '../types/route'
 import { useCreateRoute } from '../hooks/useCreateRoute'
 import { useTranslation } from '../hooks/useTranslation'
 import { Alert, AlertTitle, AlertDescription } from './ui/Alert'
-import { ROUTES, TEMP_IDS } from '../constants/app'
+import { ROUTES } from '../constants/app'
 import { Container } from './ui/Container'
 import { Card, CardHeader, CardTitle, CardDescription } from './ui/Card'
 import { Icon } from './ui/Icon'
@@ -21,8 +21,7 @@ export default function RouteCreation() {
     data: RouteCreationData & { description: string; price: string },
   ) => {
     try {
-      const transporterId = TEMP_IDS.transporter
-      const createdRoute = await createRoute(data, transporterId)
+      const createdRoute = await createRoute(data)
       navigate(ROUTES.routeCreated, { state: { route: createdRoute } })
     } catch (err) {
       console.error('Error creating route:', err)

@@ -25,12 +25,11 @@ export interface RouteResponse {
 export interface IRouteRepository {
   createRoute(
     data: RouteCreationData & { description: string; price: string },
-    transporterId: string,
   ): Promise<RouteResponse>
   searchRoutes(criteria: RouteSearchData): Promise<RouteResponse[]>
   getRoute(id: string): Promise<RouteResponse | null>
   getAllRoutes(): Promise<RouteResponse[]>
-  getRoutesByTransporter(transporterId: string): Promise<RouteResponse[]>
+  getRoutesByTransporter(): Promise<RouteResponse[]>
   publishRoute(id: string): Promise<RouteResponse>
   cancelRoute(id: string): Promise<RouteResponse>
   completeRoute(id: string): Promise<RouteResponse>

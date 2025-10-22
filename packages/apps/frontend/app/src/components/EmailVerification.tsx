@@ -6,7 +6,7 @@ import { useEmailVerification } from '../hooks/useEmailVerification'
 import { useTranslation } from '../hooks/useTranslation'
 
 interface EmailVerificationProps {
-  onVerified: (email: string) => void
+  onVerified: () => void
   loading?: boolean
   initialEmail?: string
 }
@@ -58,10 +58,12 @@ export default function EmailVerification({
       return
     }
 
-    const success = await verifyCode(email, code)
-    if (success) {
-      // Code vérifié avec succès
-      onVerified(email)
+    const authResponse = await verifyCode(email, code)
+
+    if (authResponse) {
+      // Code vérifié avec succès - cookie is set by backend
+      // Just notify parent component
+      onVerified()
     } else {
       setErrorMessage(error?.message || t('invalidEmail'))
     }

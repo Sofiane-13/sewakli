@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { EmailService } from '../infrastructure/EmailService'
+import { JwtTokenService, AuthToken } from './JwtTokenService'
 import {
   VerificationCodeNotFoundException,
   VerificationCodeExpiredException,
@@ -33,7 +34,10 @@ export class AuthService {
   private readonly MAX_ATTEMPTS = 3
   private readonly CODE_EXPIRY_MINUTES = 10
 
-  constructor(private readonly emailService: EmailService) {}
+  constructor(
+    private readonly emailService: EmailService,
+    private readonly jwtTokenService: JwtTokenService,
+  ) {}
 
   /**
    * Generates and sends a verification code to the provided email
@@ -78,16 +82,17 @@ export class AuthService {
 
   /**
    * Verifies a code against the stored code for the email
+   * Returns a JWT token if verification is successful
    *
    * @param email - The email address
    * @param code - The verification code to check
-   * @returns boolean - true if code is valid
+   * @returns AuthToken - JWT token with expiration if code is valid
    * @throws VerificationCodeNotFoundException if no code found for email
    * @throws VerificationCodeExpiredException if code has expired
    * @throws TooManyAttemptsException if max attempts exceeded
    * @throws InvalidVerificationCodeException if code doesn't match
    */
-  verifyCode(email: string, code: string): boolean {
+  verifyCodeAndGenerateToken(email: string, code: string): AuthToken {
     const storedData = this.verificationCodes.get(email)
 
     // Check if code exists
@@ -116,9 +121,26 @@ export class AuthService {
       throw new InvalidVerificationCodeException()
     }
 
-    // Code valid - clean up
+    // Code valid - clean up and generate token
     this.verificationCodes.delete(email)
-    return true
+    return this.jwtTokenService.generateToken(email)
+  }
+
+  /**
+   * Verifies a code against the stored code for the email (legacy method)
+   *
+   * @param email - The email address
+   * @param code - The verification code to check
+   * @returns boolean - true if code is valid
+   * @deprecated Use verifyCodeAndGenerateToken instead
+   */
+  verifyCode(email: string, code: string): boolean {
+    try {
+      this.verifyCodeAndGenerateToken(email, code)
+      return true
+    } catch (error) {
+      throw error
+    }
   }
 
   /**

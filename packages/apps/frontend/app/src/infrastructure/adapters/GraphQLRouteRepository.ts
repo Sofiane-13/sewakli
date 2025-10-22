@@ -20,7 +20,6 @@ export class GraphQLRouteRepository implements IRouteRepository {
 
   async createRoute(
     data: RouteCreationData & { description: string; price: string },
-    transporterId: string,
   ): Promise<RouteResponse> {
     const result = await this.apolloClient.mutate({
       mutation: CREATE_ROUTE,
@@ -39,7 +38,6 @@ export class GraphQLRouteRepository implements IRouteRepository {
           })),
           description: data.description,
           price: parseFloat(data.price),
-          transporterId,
         },
       },
     })
@@ -98,12 +96,9 @@ export class GraphQLRouteRepository implements IRouteRepository {
     )
   }
 
-  async getRoutesByTransporter(
-    transporterId: string,
-  ): Promise<RouteResponse[]> {
+  async getRoutesByTransporter(): Promise<RouteResponse[]> {
     const result = await this.apolloClient.query({
       query: GET_ROUTES_BY_TRANSPORTER,
-      variables: { transporterId },
     })
 
     return (

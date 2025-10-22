@@ -4,8 +4,10 @@ import { RouteService } from './domain/inboundPorts/RouteService'
 import { IRouteServiceToken } from './domain/inboundPorts/IRouteService'
 import { RouteInMemory } from './adapters/driven/RouteInMemory'
 import { IRouteRepositoryToken } from './domain/outboundPorts/IRouteRepository'
+import { AuthModule } from '../auth/auth.module'
 
 @Module({
+  imports: [AuthModule],
   providers: [
     // Resolver (driving adapter)
     RouteResolver,

@@ -62,8 +62,8 @@ export const GET_ALL_ROUTES = gql`
 
 export const GET_ROUTES_BY_TRANSPORTER = gql`
   ${ROUTE_FRAGMENT}
-  query GetRoutesByTransporter($transporterId: String!) {
-    routesByTransporter(transporterId: $transporterId) {
+  query GetRoutesByTransporter {
+    routesByTransporter {
       ...RouteFields
     }
   }

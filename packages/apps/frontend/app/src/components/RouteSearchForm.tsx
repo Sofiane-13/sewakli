@@ -12,11 +12,13 @@ import { Divider } from './ui/Divider'
 interface RouteSearchFormProps {
   onSearch: (data: RouteSearchData) => void
   onProposeRoute: () => void
+  onManageRoutes?: () => void
 }
 
 export default function RouteSearchForm({
   onSearch,
   onProposeRoute,
+  onManageRoutes,
 }: RouteSearchFormProps) {
   const { t } = useTranslation()
 
@@ -129,6 +131,19 @@ export default function RouteSearchForm({
         >
           {t('proposeRoute')}
         </Button>
+
+        {onManageRoutes && (
+          <Button
+            variant="outline"
+            size="default"
+            className="w-full"
+            onClick={onManageRoutes}
+            type="button"
+            leftIcon={<Icon name="dashboard" size="md" />}
+          >
+            {t('manageMyRoutes')}
+          </Button>
+        )}
       </div>
     </Card>
   )

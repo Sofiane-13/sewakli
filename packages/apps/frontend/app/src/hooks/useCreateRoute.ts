@@ -10,14 +10,8 @@ type CreateRouteData = RouteCreationData & {
 }
 
 interface UseCreateRouteReturn
-  extends Omit<
-    UseAsyncReturn<RouteResponse, [CreateRouteData, string]>,
-    'execute'
-  > {
-  createRoute: (
-    data: CreateRouteData,
-    transporterId: string,
-  ) => Promise<RouteResponse>
+  extends Omit<UseAsyncReturn<RouteResponse, [CreateRouteData]>, 'execute'> {
+  createRoute: (data: CreateRouteData) => Promise<RouteResponse>
 }
 
 /**
@@ -28,8 +22,8 @@ export const useCreateRoute = (): UseCreateRouteReturn => {
   const repository = useRouteRepository()
 
   const asyncCreateRoute = useCallback(
-    (routeData: CreateRouteData, transporterId: string) => {
-      return repository.createRoute(routeData, transporterId)
+    (routeData: CreateRouteData) => {
+      return repository.createRoute(routeData)
     },
     [repository],
   )

@@ -114,6 +114,9 @@ export const translations = {
     cancel: 'Annuler',
     confirm: 'Confirmer',
     close: 'Fermer',
+
+    // Route Management
+    manageMyRoutes: 'Gérer mes itinéraires',
   },
 
   en: {
@@ -226,6 +229,9 @@ export const translations = {
     cancel: 'Cancel',
     confirm: 'Confirm',
     close: 'Close',
+
+    // Route Management
+    manageMyRoutes: 'Manage my routes',
   },
 
   ar: {
@@ -337,6 +343,9 @@ export const translations = {
     cancel: 'إلغاء',
     confirm: 'تأكيد',
     close: 'إغلاق',
+
+    // Route Management
+    manageMyRoutes: 'إدارة مساراتي',
   },
 }
 

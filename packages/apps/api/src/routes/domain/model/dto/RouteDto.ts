@@ -46,8 +46,8 @@ export class CreateRouteInput {
   @Field(() => Float, { nullable: true })
   price?: number
 
-  @Field(() => String)
-  transporterId!: string
+  @Field(() => String, { nullable: true })
+  transporterId?: string
 }
 
 @InputType()

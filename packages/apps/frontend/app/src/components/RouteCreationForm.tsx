@@ -5,6 +5,7 @@ import { RouteCreationData } from '../types/route'
 import { useLocation } from '../hooks/useLocation'
 import { useIntermediateStops } from '../hooks/useIntermediateStops'
 import { useTranslation } from '../hooks/useTranslation'
+import { useAuth } from '../hooks/useAuth'
 import { LOCATION_ICONS } from '../constants/icons'
 import { Button } from './ui/Button'
 import { validateEmail } from '../lib/validation'
@@ -25,6 +26,13 @@ export default function RouteCreationForm({
   loading = false,
 }: RouteCreationFormProps) {
   const { t } = useTranslation()
+  const { isAuthenticated, isLoading: isCheckingAuth, refreshAuth } = useAuth()
+
+  console.log('[RouteCreationForm] Auth state:', {
+    isAuthenticated,
+    isCheckingAuth,
+  })
+
   // Departure location
   const departure = useLocation()
   const [departureDate, setDepartureDate] = useState('')
@@ -44,10 +52,13 @@ export default function RouteCreationForm({
   // Email verification state
   const [showVerificationModal, setShowVerificationModal] = useState(false)
 
-  const handleEmailVerified = (verifiedEmail: string) => {
+  const handleEmailVerified = () => {
     setShowVerificationModal(false)
 
-    // Une fois l'email vérifié, créer la route
+    // Refresh auth state to detect the new cookie
+    refreshAuth()
+
+    // Once email is verified, cookie is set by backend, create the route
     onPublish({
       departureCountry: departure.country,
       departureCity: departure.city,
@@ -58,7 +69,7 @@ export default function RouteCreationForm({
       intermediateStops: stops,
       description,
       price,
-      email: verifiedEmail,
+      email,
     })
   }
 
@@ -67,15 +78,31 @@ export default function RouteCreationForm({
   }
 
   const handlePublish = () => {
-    // Validation de l'email
-    const emailValidation = validateEmail(email)
-    if (!emailValidation.isValid) {
-      // TODO: Afficher une erreur avec emailValidation.error
-      console.error(emailValidation.error)
+    // If already authenticated (has cookie), publish directly
+    if (isAuthenticated) {
+      onPublish({
+        departureCountry: departure.country,
+        departureCity: departure.city,
+        departureDate,
+        arrivalCountry: arrival.country,
+        arrivalCity: arrival.city,
+        arrivalDate,
+        intermediateStops: stops,
+        description,
+        price,
+        email: '', // Email not needed - it's in the cookie
+      })
       return
     }
 
-    // Déclencher la vérification par email
+    // For non-authenticated users, validate email and trigger verification
+    const emailValidation = validateEmail(email)
+    if (!emailValidation.isValid) {
+      alert(emailValidation.error || 'Please enter a valid email')
+      return
+    }
+
+    // Trigger email verification - this will set the cookie
     setShowVerificationModal(true)
   }
 
@@ -185,32 +212,34 @@ export default function RouteCreationForm({
         </div>
       </div>
 
-      {/* Email Field */}
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
-        >
-          {t('email')}
-        </label>
-        <div className="relative">
-          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500">
-            mail
-          </span>
-          <input
-            id="email"
-            type="email"
-            className="w-full h-12 pl-12 pr-4 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 placeholder-neutral-400 dark:placeholder-neutral-600 border border-neutral-300 dark:border-neutral-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
-            placeholder={t('emailPlaceholder')}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      {/* Email Field - Hidden when authenticated or checking auth */}
+      {!isCheckingAuth && !isAuthenticated && (
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
+          >
+            {t('email')}
+          </label>
+          <div className="relative">
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500">
+              mail
+            </span>
+            <input
+              id="email"
+              type="email"
+              className="w-full h-12 pl-12 pr-4 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 placeholder-neutral-400 dark:placeholder-neutral-600 border border-neutral-300 dark:border-neutral-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
+              placeholder={t('emailPlaceholder')}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2 flex items-start gap-1">
+            <span className="material-symbols-outlined text-sm">info</span>
+            <span>{t('emailVerificationInfo')}</span>
+          </p>
         </div>
-        <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2 flex items-start gap-1">
-          <span className="material-symbols-outlined text-sm">info</span>
-          <span>{t('emailVerificationInfo')}</span>
-        </p>
-      </div>
+      )}
 
       {/* Publish Button */}
       <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">

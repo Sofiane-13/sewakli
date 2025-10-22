@@ -3,6 +3,18 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Response returned after successful email verification"""
+type AuthResponse {
+  """JWT access token"""
+  accessToken: String!
+
+  """User email address"""
+  email: String!
+
+  """Token expiration time in seconds"""
+  expiresIn: Int!
+}
+
 input CreateIntermediateStopInput {
   city: String!
   country: String!
@@ -19,7 +31,11 @@ input CreateRouteInput {
   description: String
   intermediateStops: [CreateIntermediateStopInput!]
   price: Float
-  transporterId: String!
+  transporterId: String
+}
+
+type CurrentUser {
+  email: String!
 }
 
 """
@@ -39,19 +55,24 @@ type Mutation {
   cancelRoute(id: String!): RouteDto!
   completeRoute(id: String!): RouteDto!
   createRoute(input: CreateRouteInput!): RouteDto!
+
+  """Déconnexion - supprime le cookie auth"""
+  logout: Boolean!
   publishRoute(id: String!): RouteDto!
 
   """Envoie un code de vérification par email"""
   sendEmailCode(email: String!): Boolean!
 
-  """Vérifie le code email saisi par l'utilisateur"""
-  verifyEmailCode(code: String!, email: String!): Boolean!
+  """Vérifie le code email et retourne un token JWT dans un cookie"""
+  verifyEmailCode(code: String!, email: String!): AuthResponse!
 }
 
 type Query {
+  """Get current authenticated user from cookie"""
+  getCurrentUser: CurrentUser
   route(id: String!): RouteDto
   routes: [RouteDto!]!
-  routesByTransporter(transporterId: String!): [RouteDto!]!
+  routesByTransporter: [RouteDto!]!
   searchRoutes(input: SearchRouteInput!): [RouteDto!]!
   users: [UserGraphQl!]!
 }

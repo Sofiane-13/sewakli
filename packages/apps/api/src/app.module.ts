@@ -7,13 +7,15 @@ import { AuthModule } from './auth/auth.module'
 import { TypeGraphQLModule } from 'typegraphql-nestjs'
 import { ApolloDriver } from '@nestjs/apollo'
 import { AppExceptionFilter } from './common/filters/app-exception.filter'
+import { customAuthChecker } from './auth/infrastructure/auth-checker'
 
 @Module({
   imports: [
     TypeGraphQLModule.forRoot({
       driver: ApolloDriver,
       emitSchemaFile: true,
-      context: ({ req }) => ({ currentUser: req.user }),
+      context: ({ req, res }) => ({ req, res }),
+      authChecker: customAuthChecker,
     }),
     UserModule,
     RouteModule,

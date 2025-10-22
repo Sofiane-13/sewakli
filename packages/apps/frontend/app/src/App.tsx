@@ -3,6 +3,7 @@ import Home from './components/Home'
 import RouteCreation from './components/RouteCreation'
 import SearchResults from './components/SearchResults'
 import { RouteCreationSuccess } from './components/RouteCreationSuccess'
+import RouteManagement from './components/RouteManagement'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/create-route" element={<RouteCreation />} />
         <Route path="/route-created" element={<RouteCreationSuccess />} />
+        <Route path="/manage-routes" element={<RouteManagement />} />
       </Routes>
     </BrowserRouter>
   )
